@@ -1,5 +1,6 @@
 import os
 
+from dotenv import load_dotenv
 from libqtile import widget
 
 
@@ -11,6 +12,11 @@ class Colors:
     secondary = "#8ABEB7"
     alert = "#A54242"
     disabled = "#707880"
+
+
+dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
 
 
 font_template = "<span foreground='#F0C674' \
