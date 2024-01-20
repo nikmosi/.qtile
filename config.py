@@ -1,4 +1,5 @@
 import subprocess as sb
+from dataclasses import dataclass
 
 from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
@@ -25,6 +26,13 @@ from settings import (
 # info-wakatime/
 # openweathermap-detailed/
 # polybar-wireguard/
+
+
+@dataclass
+class ScreenSettings:
+    index: int
+    key_prefix: str
+    group_count: int
 
 
 @subscribe.client_new
@@ -55,18 +63,19 @@ def to_japanese_number(num: int):
 
 
 def get_groups():
-    count_on_screen = 9
     res = []
-    screen_key_prefix = ["{}", "F{}"]
-    for screen in [0, 1]:
-        for i in range(1, count_on_screen + 1):
+    for screen in [
+        ScreenSettings(index=0, key_prefix="{}", group_count=5),
+        ScreenSettings(index=1, key_prefix="F{}", group_count=9),
+    ]:
+        for i in range(1, screen.group_count + 1):
             group = Group(
                 str(len(res) + 1),
                 label=str(to_japanese_number(i)),
-                screen_affinity=screen,
+                screen_affinity=screen.index,
             )
             res.append(group)
-            setattr(group, "keycode", screen_key_prefix[screen].format(i))
+            setattr(group, "keycode", screen.key_prefix.format(i))
     firefox_group = Group("", screen_affinity=0, matches=[Match(wm_class="firefox")])
     setattr(firefox_group, "keycode", "w")
     res += [firefox_group]
