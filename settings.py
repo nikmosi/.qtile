@@ -54,3 +54,11 @@ clock_formats = [
 ]
 block = "[ {} ]"
 separator = widget.TextBox("┇", foreground=Colors.disabled)
+
+airq_token = os.getenv("INFO_AIRQUALITYINDEX_TOKEN")
+airq_city = os.getenv("INFO_AIRQUALITYINDEX_CITY")
+airq_api = os.getenv("INFO_AIRQUALITYINDEX_API")
+
+openweather_key = os.getenv("OPENWEATHERMAP_KEY")
+openweather_city = os.getenv("OPENWEATHERMAP_CITY")
+openweather_api = os.getenv("OPENWEATHERMA_API")

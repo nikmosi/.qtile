@@ -8,7 +8,7 @@ API="https://api.waqi.info/feed"
 if [ -n "$CITY" ]; then
     aqi=$(curl -sf "$API/$CITY/?token=$TOKEN")
 else
-    location=$(curl --proxy 185.237.224.171:8888 -sf https://location.services.mozilla.com/v1/geolocate?key=geoclue)
+    location=$(curl -sf https://location.services.mozilla.com/v1/geolocate?key=geoclue)
 
     if [ -n "$location" ]; then
         location_lat="$(echo "$location" | jq '.location.lat')"

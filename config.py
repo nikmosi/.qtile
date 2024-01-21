@@ -9,15 +9,21 @@ from libqtile.layout import max as layoutMax
 from libqtile.layout import tile, tree
 from libqtile.lazy import lazy
 
-from custom_widgets import NextFormatsClock
+from custom_widgets import InfoAirQualitiIndex, NextFormatsClock, OpenWeatherMap
 from keys import keys
 from settings import (
     Colors,
+    airq_api,
+    airq_city,
+    airq_token,
     block,
     clock_formats,
     font_awesome_bold,
     home,
     mod,
+    openweather_api,
+    openweather_city,
+    openweather_key,
     separator,
 )
 
@@ -149,6 +155,12 @@ screens = [
                     },
                 ),
                 widget.Systray(),
+                separator,
+                OpenWeatherMap(
+                    openweather_api, openweather_key, openweather_city, fmt=block
+                ),
+                separator,
+                InfoAirQualitiIndex(airq_token, airq_city, airq_api, fmt=block),
                 separator,
                 widget.Memory(
                     fmt=block,
