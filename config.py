@@ -1,10 +1,10 @@
 import subprocess as sb
 from dataclasses import dataclass
 
-from libqtile import bar, layout, widget
+from libqtile import bar, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.hook import subscribe
-from libqtile.layout import columns
+from libqtile.layout import columns, floating
 from libqtile.layout import max as layoutMax
 from libqtile.layout import tile, tree
 from libqtile.lazy import lazy
@@ -230,10 +230,10 @@ follow_mouse_focus = True
 bring_front_click = False
 floats_kept_above = True
 cursor_warp = False
-floating_layout = layout.Floating(
+floating_layout = floating.Floating(
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
-        *layout.Floating.default_float_rules,
+        *floating.Floating.default_float_rules,
         Match(wm_class="confirmreset"),  # gitk
         Match(wm_class="makebranch"),  # gitk
         Match(wm_class="maketag"),  # gitk
