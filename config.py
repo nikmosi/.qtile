@@ -164,7 +164,7 @@ screens = [
                 separator,
                 widget.Memory(
                     fmt=block,
-                    format=font_awesome_bold.format("  ") + "{MemPercent:.0f}%",
+                    format=font_awesome_bold.format("  ") + "{MemPercent:2.0f}%",
                 ),
                 separator,
                 widget.PulseVolume(

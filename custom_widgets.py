@@ -177,5 +177,6 @@ class OpenWeatherMap(ThreadPoolText):
         weather_icon = data["weather"][0]["icon"]
 
         symbol = "°"
-        return f'<span font_family="Weather Icons">{self.get_icon(weather_icon)}\
-                </span> {weather_desc} {weather_temp}{symbol}'
+        icon_formatting = """<span font_family="Weather Icons">{}</span>"""
+        icon = icon_formatting.format(self.get_icon(weather_icon))
+        return f"{icon} {weather_desc} {weather_temp}{symbol}"
