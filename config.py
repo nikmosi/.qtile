@@ -157,10 +157,16 @@ screens = [
                 widget.Systray(),
                 separator,
                 OpenWeatherMap(
-                    openweather_api, openweather_key, openweather_city, fmt=block
+                    openweather_api,
+                    openweather_key,
+                    openweather_city,
+                    fmt=block,
+                    update_inteval=300,
                 ),
                 separator,
-                InfoAirQualitiIndex(airq_token, airq_city, airq_api, fmt=block),
+                InfoAirQualitiIndex(
+                    airq_token, airq_city, airq_api, fmt=block, update_inteval=300
+                ),
                 separator,
                 widget.Memory(
                     fmt=block,
