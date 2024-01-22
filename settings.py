@@ -2,6 +2,7 @@ import os
 
 from dotenv import load_dotenv
 from libqtile import widget
+from loguru import logger
 
 
 class Colors:
@@ -62,3 +63,9 @@ airq_api = os.getenv("INFO_AIRQUALITYINDEX_API")
 openweather_key = os.getenv("OPENWEATHERMAP_KEY")
 openweather_city = os.getenv("OPENWEATHERMAP_CITY")
 openweather_api = os.getenv("OPENWEATHERMA_API")
+
+wakatime_token = os.getenv("WAKATIME_TOKEN", default="")
+if not wakatime_token:
+    err = "wakatime_token is none"
+    logger.error(err)
+    raise Exception(err)

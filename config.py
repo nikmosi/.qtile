@@ -9,7 +9,12 @@ from libqtile.layout import max as layoutMax
 from libqtile.layout import tile, tree
 from libqtile.lazy import lazy
 
-from custom_widgets import InfoAirQualitiIndex, NextFormatsClock, OpenWeatherMap
+from custom_widgets import (
+    InfoAirQualitiIndex,
+    NextFormatsClock,
+    OpenWeatherMap,
+    WakaTime,
+)
 from keys import keys
 from settings import (
     Colors,
@@ -25,6 +30,7 @@ from settings import (
     openweather_city,
     openweather_key,
     separator,
+    wakatime_token,
 )
 
 # TODO: add
@@ -155,6 +161,8 @@ screens = [
                     },
                 ),
                 widget.Systray(),
+                separator,
+                WakaTime(wakatime_token, fmt=block, update_inteval=60),
                 separator,
                 OpenWeatherMap(
                     openweather_api,
