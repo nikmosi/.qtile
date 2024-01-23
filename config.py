@@ -9,12 +9,10 @@ from libqtile.layout import max as layoutMax
 from libqtile.layout import tile, tree
 from libqtile.lazy import lazy
 
-from custom_widgets import (
-    InfoAirQualitiIndex,
-    NextFormatsClock,
-    OpenWeatherMap,
-    WakaTime,
-)
+from custom_widgets.infoairqualityindex import InfoAirQualitiIndex
+from custom_widgets.nextformatclock import NextFormatsClock
+from custom_widgets.openweathermap import OpenWeatherMap
+from custom_widgets.wakatime import WakaTime
 from keys import keys
 from settings import (
     Colors,
