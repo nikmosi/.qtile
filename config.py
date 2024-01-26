@@ -32,9 +32,6 @@ from settings import (
 )
 
 # TODO: add
-# info-airqualityindex/
-# info-wakatime/
-# openweathermap-detailed/
 # polybar-wireguard/
 
 
@@ -76,7 +73,7 @@ def get_groups():
     res = []
     for screen in [
         ScreenSettings(index=0, key_prefix="{}", group_count=5),
-        ScreenSettings(index=1, key_prefix="F{}", group_count=9),
+        ScreenSettings(index=1, key_prefix="F{}", group_count=4),
     ]:
         for i in range(1, screen.group_count + 1):
             group = Group(
@@ -88,7 +85,13 @@ def get_groups():
             setattr(group, "keycode", screen.key_prefix.format(i))
     firefox_group = Group("", screen_affinity=0, matches=[Match(wm_class="firefox")])
     setattr(firefox_group, "keycode", "w")
-    res += [firefox_group]
+    chatterino = Group(
+        "󰕃",
+        screen_affinity=1,
+        matches=[Match(wm_class="chatterino")],
+    )
+    setattr(chatterino, "keycode", "b")
+    res += [firefox_group, chatterino]
     return res
 
 
