@@ -134,7 +134,7 @@ def get_groups_name_in_screen(screen_index: int):
 
 screens = [
     Screen(
-        wallpaper="/home/nik/Downloads/wallhaven-2yj2px.png",
+        wallpaper="/home/nik/Pictures/wallpaper/wallhaven-2yj2px.png",
         wallpaper_mode="fill",
         top=bar.Bar(
             [
@@ -194,7 +194,7 @@ screens = [
         ),
     ),
     Screen(
-        wallpaper="/home/nik/Downloads/wallhaven-vml95l.jpg",
+        wallpaper="/home/nik/Pictures/wallpaper/wallhaven-vml95l.jpg",
         wallpaper_mode="fill",
         top=bar.Bar(
             [
