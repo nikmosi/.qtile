@@ -272,6 +272,7 @@ floating_layout = floating.Floating(
         Match(title="pinentry"),  # GPG key password entry
         Match(title="BakkesModInjectorCpp"),  # GPG key password entry
         Match(wm_class="pinentry-gtk-2"),  # GPG key password entry
+        Match(wm_class="MultiMC"),  # GPG key password entry
     ],
     no_reposition_rules=[
         Match(wm_class="pavucontrol"),
