@@ -3,6 +3,7 @@ from libqtile.lazy import lazy
 
 from settings import (
     clipboard_selector,
+    home,
     mod,
     password_manager,
     password_selector,
@@ -85,5 +86,18 @@ keys = [
         ],
         mode=True,
         name="Shutdown",
+    ),
+    KeyChord(
+        [mod],
+        "z",
+        [
+            Key(
+                [],
+                "d",
+                lazy.spawn(
+                    home + "/.config/qtile/scripts/firefox_tlrulate_download.py"
+                ),
+            )
+        ],
     ),
 ]
