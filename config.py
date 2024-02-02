@@ -89,8 +89,6 @@ def get_groups():
         "󰕃",
         screen_affinity=1,
         matches=[Match(wm_class="chatterino")],
-        persist=False,
-        init=False,
     )
     setattr(chatterino, "keycode", "b")
     res += [firefox_group, chatterino]
