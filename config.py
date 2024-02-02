@@ -13,6 +13,7 @@ from custom_widgets.infoairqualityindex import InfoAirQualitiIndex
 from custom_widgets.nextformatclock import NextFormatsClock
 from custom_widgets.openweathermap import OpenWeatherMap
 from custom_widgets.wakatime import WakaTime
+from custom_widgets.wireguard import Wireguard
 from keys import keys
 from settings import (
     Colors,
@@ -162,6 +163,8 @@ screens = [
                     },
                 ),
                 widget.Systray(),
+                separator,
+                Wireguard(),
                 separator,
                 WakaTime(wakatime_token, fmt=block, update_inteval=60),
                 separator,
