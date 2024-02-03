@@ -180,7 +180,7 @@ screens = [
                     airq_token, airq_city, airq_api, fmt=block, update_inteval=300
                 ),
                 separator,
-                widget.KeyboardLayout(configured_keyboards=["us", "ru"], fmt=block),
+                widget.KeyboardLayout(configured_keyboards=["us", "ru,us"], fmt=block),
                 separator,
                 widget.Memory(
                     fmt=block,
@@ -303,4 +303,4 @@ wl_input_rules = None
 #
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
-wmname = "bbbb"
+wmname = "🚀 Blazing 🚀 Fast 🚀 Qtile 🚀"
