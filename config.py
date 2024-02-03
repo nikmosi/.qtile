@@ -270,6 +270,7 @@ floating_layout = floating.Floating(
         Match(wm_class="makebranch"),  # gitk
         Match(wm_class="maketag"),  # gitk
         Match(wm_class="StartWine"),
+        Match(wm_class="qbittorrent"),
         Match(wm_class="float_pass"),
         # Match(wm_class="pavucontrol"),
         Match(wm_class="ssh-askpass"),  # ssh-askpass
