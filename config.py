@@ -164,7 +164,7 @@ screens = [
                 ),
                 widget.Systray(),
                 separator,
-                Wireguard(),
+                Wireguard(fmt=block, update_inteval=3600),
                 separator,
                 WakaTime(wakatime_token, fmt=block, update_inteval=60),
                 separator,
