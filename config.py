@@ -180,6 +180,8 @@ screens = [
                     airq_token, airq_city, airq_api, fmt=block, update_inteval=300
                 ),
                 separator,
+                widget.KeyboardLayout(configured_keyboards=["us", "ru"], fmt=block),
+                separator,
                 widget.Memory(
                     fmt=block,
                     format=font_awesome_bold.format("  ") + "{MemPercent:2.0f}%",

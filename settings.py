@@ -31,6 +31,7 @@ font_awesome_brands_bold = font_template.format(
 
 home = os.path.expanduser("~")
 mod = "mod4"
+alt = "mod1"
 terminal = "alacritty"
 rofi_bash = home + "/.config/rofi/launcher/launcher.sh"
 
