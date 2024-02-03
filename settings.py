@@ -49,6 +49,13 @@ clipboard_selector = (
     "rofi -modi \"clipboard:greenclip print\" -show clipboard -run-command '{cmd}' "
     + f" -theme {home}/.config/rofi/launcher/style-5.rasi"
 )
+
+scrot_command = (
+    "scrot '/tmp/%F_%T_$wx$h.png' "
+    + "-e 'xclip -selection clipboard -target image/png -i $f' "
+    + "{args}"
+)
+
 clock_formats = [
     font_awesome_bold.format("  ") + "%I:%M %p",
     font_awesome_bold.format("  ") + "%a, %d %b %Y",

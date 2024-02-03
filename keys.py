@@ -8,6 +8,7 @@ from settings import (
     password_manager,
     password_selector,
     rofi_bash,
+    scrot_command,
     terminal,
 )
 
@@ -77,6 +78,18 @@ keys = [
         [mod, "shift"], "p", lazy.spawn(password_manager), desc="Spawn password manager"
     ),
     Key([mod], "c", lazy.spawn(clipboard_selector), desc="Spawn clipboard selector"),
+    Key(
+        [],
+        "Print",
+        lazy.spawn(scrot_command.format(args="-s")),
+        desc="screenshot selected area",
+    ),
+    Key(
+        ["shift"],
+        "Print",
+        lazy.spawn(scrot_command.format(args="")),
+        desc="screenshot screen",
+    ),
     KeyChord(
         [mod],
         "x",
