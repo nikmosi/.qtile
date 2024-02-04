@@ -10,6 +10,7 @@ from libqtile.layout import tile, tree
 from libqtile.lazy import lazy
 
 from custom_widgets.infoairqualityindex import InfoAirQualitiIndex
+from custom_widgets.kblEmoji import KblEmoji
 from custom_widgets.nextformatclock import NextFormatsClock
 from custom_widgets.openweathermap import OpenWeatherMap
 from custom_widgets.wakatime import WakaTime
@@ -180,7 +181,11 @@ screens = [
                     airq_token, airq_city, airq_api, fmt=block, update_inteval=300
                 ),
                 separator,
-                widget.KeyboardLayout(configured_keyboards=["us", "ru,us"], fmt=block),
+                KblEmoji(
+                    name="keyboardlayout",
+                    configured_keyboards=["us", "ru,us"],
+                    fmt=block,
+                ),
                 separator,
                 widget.Memory(
                     fmt=block,
