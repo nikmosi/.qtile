@@ -167,7 +167,7 @@ screens = [
                 separator,
                 Wireguard(fmt=block, update_inteval=3600),
                 separator,
-                WakaTime(wakatime_token, fmt=block, update_inteval=60),
+                WakaTime(wakatime_token, fmt=block, update_inteval=30),
                 separator,
                 OpenWeatherMap(
                     openweather_api,
