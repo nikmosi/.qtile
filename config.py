@@ -163,7 +163,7 @@ screens = [
                         "Shutdown": (Colors.alert, Colors.foreground),
                     },
                 ),
-                widget.Systray(),
+                widget.Systray(icon_size=16),
                 separator,
                 Wireguard(fmt=block, update_inteval=3600),
                 separator,
