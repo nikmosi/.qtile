@@ -34,9 +34,6 @@ from settings import (
     wakatime_token,
 )
 
-# TODO: add
-# polybar-wireguard/
-
 
 @dataclass
 class ScreenSettings:
