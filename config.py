@@ -1,3 +1,4 @@
+import re
 import subprocess as sb
 from dataclasses import dataclass
 
@@ -93,7 +94,14 @@ def get_groups():
         matches=[Match(wm_class="chatterino")],
     )
     setattr(chatterino, "keycode", "b")
-    res += [firefox_group, chatterino]
+    minecraft = Group(
+        "minecraft",
+        label="󱉼",
+        screen_affinity=0,
+        matches=[Match(title=re.compile("^Minecraft"))],
+    )
+    setattr(minecraft, "keycode", "m")
+    res += [firefox_group, chatterino, minecraft]
     return res
 
 
