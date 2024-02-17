@@ -2,7 +2,7 @@ import re
 import subprocess as sb
 from dataclasses import dataclass
 
-from libqtile import bar, widget
+from libqtile import bar, qtile, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.hook import subscribe
 from libqtile.layout import columns, floating
@@ -54,6 +54,13 @@ def auto_lunch():
     sb.call([home + "/.config/qtile/scripts/autostart.sh"])
 
 
+@subscribe.startup_complete
+def complete_hook():
+    calls = [lazy.group["firefox"].toscreen(0), lazy.group["chatterino"].toscreen(1)]
+    for i in calls:
+        qtile.server.call((i.selectors, i.name, i.args, i.kwargs))
+
+
 def to_japanese_number(num: int):
     japanese_map = {
         1: "一",
@@ -83,16 +90,24 @@ def get_groups():
             )
             res.append(group)
             setattr(group, "keycode", screen.key_prefix.format(i))
-    firefox_group = Group("", screen_affinity=0, matches=[Match(wm_class="firefox")])
+    firefox_group = Group(
+        name="firefox",
+        label="",
+        screen_affinity=0,
+        matches=[Match(wm_class="firefox")],
+    )
     setattr(firefox_group, "keycode", "w")
+    lazy.group[firefox_group.name].toscreen(firefox_group.screen_affinity)
     chatterino = Group(
-        "󰕃",
+        name="chatterino",
+        label="󰕃",
         screen_affinity=1,
         matches=[Match(wm_class="chatterino")],
     )
     setattr(chatterino, "keycode", "b")
+    lazy.group[chatterino.name].toscreen(chatterino.screen_affinity)
     minecraft = Group(
-        "minecraft",
+        name="minecraft",
         label="󱉼",
         screen_affinity=0,
         matches=[Match(title=re.compile("^Minecraft"))],
