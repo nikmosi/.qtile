@@ -1,0 +1,19 @@
+import subprocess as sb
+
+from libqtile.widget.base import ThreadPoolText
+
+
+class CDF(ThreadPoolText):
+    defaults = [("format", "{}", "default format")]
+
+    def __init__(self, text="N/A", **config):
+        super().__init__(text, **config)
+
+    def poll(self):
+        out = sb.check_output(
+            "sudo btrfs filesystem usage -b /".split(), text=True
+        ).split("\n")
+        for i in filter(lambda a: "Used:" in a, out):
+            size = float(i.split()[1]) / 1024 / 1024 / 1024
+            return self.format.format(f"{size:6.2f}")
+        return self.text

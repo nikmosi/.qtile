@@ -10,6 +10,7 @@ from libqtile.layout import max as layoutMax
 from libqtile.layout import tile, tree
 from libqtile.lazy import lazy
 
+from custom_widgets.custom_df import CDF
 from custom_widgets.infoairqualityindex import InfoAirQualitiIndex
 from custom_widgets.kblEmoji import KblEmoji
 from custom_widgets.nextformatclock import NextFormatsClock
@@ -212,6 +213,8 @@ screens = [
                     format=font_awesome_bold.format("  ") + "{MemPercent:2.0f}%",
                 ),
                 separator,
+                CDF(fmt=block, format=font_awesome_bold.format("  ") + "{}"),
+                separator,
                 widget.PulseVolume(
                     fmt=block.format(font_awesome_bold.format(" ") + "{}"),
                     mouse_callbacks={
@@ -250,6 +253,8 @@ screens = [
                     fmt=block,
                     format=font_awesome_bold.format("  ") + "{MemPercent:.0f}%",
                 ),
+                separator,
+                CDF(fmt=block, format=font_awesome_bold.format("  ") + "{}"),
                 separator,
                 widget.PulseVolume(
                     fmt=block.format(font_awesome_bold.format(" ") + "{}"),
