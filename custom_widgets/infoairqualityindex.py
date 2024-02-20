@@ -23,7 +23,7 @@ class InfoAirQualitiIndex(ThreadPoolText):
     def poll(self):
         datetime.datetime.now().time().__str__()
         ans = requests.get(self.url)
-        res = """<span foreground="{color}" weight="bold">\uea35</span> {value}"""
+        res = """<span foreground="{color}" weight="bold">\uea35</span> {value:2}"""
         if ans.status_code != HTTPStatus.OK:
             logger.error(f"didn't get and from {self.url}")
             return res.format(color=self.Colors.red, value="=")
