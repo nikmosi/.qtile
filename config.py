@@ -306,6 +306,7 @@ floating_layout = floating.Floating(
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title=re.compile("^Welcome to JetBrains.*")),
         Match(title=re.compile("^Welcome to PyCharm.*")),
+        Match(title=re.compile("^Welcome to WebStorm.*")),
         Match(title=re.compile("^Welcome to DataGrip.*")),
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
