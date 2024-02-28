@@ -10,6 +10,7 @@ from libqtile.layout import max as layoutMax
 from libqtile.layout import tile, tree
 from libqtile.lazy import lazy
 
+from custom_widgets.cSysTray import cSysTray
 from custom_widgets.custom_df import CDF
 from custom_widgets.infoairqualityindex import InfoAirQualitiIndex
 from custom_widgets.kblEmoji import KblEmoji
@@ -184,7 +185,7 @@ screens = [
                         "Shutdown": (Colors.alert, Colors.foreground),
                     },
                 ),
-                widget.Systray(icon_size=16),
+                cSysTray(icon_size=16, ignored_names=["Prismatik"]),
                 separator,
                 Wireguard(fmt=block, update_inteval=3600),
                 separator,
