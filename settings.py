@@ -52,7 +52,7 @@ clipboard_selector = (
 )
 
 scrot_command = (
-    "scrot '/tmp/%F_%T_$wx$h.png' "
+    f"scrot '{home}/Pictures/Screenshots/%F_%T_$wx$h.png' "
     + "-e 'xclip -selection clipboard -target image/png -i $f' "
     + "{args}"
 )
