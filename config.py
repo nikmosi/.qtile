@@ -219,7 +219,7 @@ screens = [
                 widget.PulseVolume(
                     fmt=block.format(font_awesome_bold.format(" ") + "{}"),
                     mouse_callbacks={
-                        "Button3": lazy.spawn("pavucontrol"),
+                        "Button3": lazy.spawn("pavucontrol -t 3"),
                     },
                 ),
                 separator,
@@ -260,7 +260,7 @@ screens = [
                 widget.PulseVolume(
                     fmt=block.format(font_awesome_bold.format(" ") + "{}"),
                     mouse_callbacks={
-                        "Button3": lazy.spawn("pavucontrol"),
+                        "Button3": lazy.spawn("pavucontrol -t 3"),
                     },
                 ),
                 separator,
