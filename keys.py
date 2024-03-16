@@ -96,7 +96,7 @@ keys = [
         [mod],
         "x",
         [
-            Key([], "s", lazy.spawn("poweroff")),
+            Key([], "s", lazy.spawn("prismatik --off && prismatik --off && poweroff")),
             Key([], "r", lazy.spawn("reboot")),
         ],
         mode=True,
