@@ -212,7 +212,11 @@ screens = [
                     format=font_awesome_bold.format("  ") + "{MemPercent:2.0f}%",
                 ),
                 separator,
-                CDF(fmt=block, format=font_awesome_bold.format("  ") + "{}"),
+                CDF(
+                    fmt=block,
+                    format=font_awesome_bold.format("  ") + "{}",
+                    update_inteval=60,
+                ),
                 separator,
                 widget.PulseVolume(
                     fmt=block.format(font_awesome_bold.format(" ") + "{}"),

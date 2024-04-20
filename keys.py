@@ -15,6 +15,8 @@ from settings import (
 keys = [
     Key(["mod1"], "Shift_L", lazy.widget["keyboardlayout"].next_keyboard()),
     Key(["shift"], "Alt_L", lazy.widget["keyboardlayout"].next_keyboard()),
+    # Key([], "ISO_Next_Group", lazy.widget["keyboardlayout"].next_keyboard()),
+    # Key([], "ISO_Next_Group_Lock", lazy.widget["keyboardlayout"].next_keyboard()),
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
     # Switch between windows
