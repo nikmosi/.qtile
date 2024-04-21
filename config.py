@@ -12,7 +12,7 @@ from libqtile.lazy import lazy
 
 from custom_widgets.cSysTray import cSysTray
 from custom_widgets.custom_df import CDF
-from custom_widgets.infoairqualityindex import InfoAirQualitiIndex, IqAirCurl
+from custom_widgets.infoairqualityindex import AqiApi, InfoAirQualitiIndex
 from custom_widgets.kblEmoji import KblEmoji
 from custom_widgets.nextformatclock import NextFormatsClock
 from custom_widgets.openweathermap import OpenWeatherMap
@@ -21,6 +21,9 @@ from custom_widgets.wireguard import Wireguard
 from keys import keys
 from settings import (
     Colors,
+    airq_api,
+    airq_city,
+    airq_token,
     block,
     clock_formats,
     font_awesome_bold,
@@ -196,10 +199,12 @@ screens = [
                     update_inteval=300,
                 ),
                 separator,
-                # InfoAirQualitiIndex(
-                # AqiApi(airq_token, airq_city, airq_api), fmt=block, update_inteval=300
-                # ),
-                InfoAirQualitiIndex(IqAirCurl(), fmt=block, update_inteval=300),
+                InfoAirQualitiIndex(
+                    AqiApi(airq_token, airq_city, airq_api),
+                    fmt=block,
+                    update_inteval=300,
+                ),
+                # InfoAirQualitiIndex(IqAirCurl(), fmt=block, update_inteval=300),
                 separator,
                 KblEmoji(
                     name="keyboardlayout",
