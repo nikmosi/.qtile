@@ -100,6 +100,14 @@ def get_groups():
     )
     setattr(firefox_group, "keycode", "w")
     lazy.group[firefox_group.name].toscreen(firefox_group.screen_affinity)
+    discord = Group(
+        name="discord",
+        label="の",
+        screen_affinity=1,
+        matches=[Match(wm_class="discord")],
+    )
+    setattr(discord, "keycode", "l")
+    lazy.group[discord.name].toscreen(discord.screen_affinity)
     chatterino = Group(
         name="chatterino",
         label="󰕃",
@@ -115,7 +123,7 @@ def get_groups():
         matches=[Match(title=re.compile("^Minecraft"))],
     )
     setattr(minecraft, "keycode", "m")
-    res += [firefox_group, chatterino, minecraft]
+    res += [firefox_group, discord, chatterino, minecraft]
     return res
 
 
