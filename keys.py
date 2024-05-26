@@ -1,6 +1,11 @@
 from libqtile.config import Key, KeyChord
 from libqtile.lazy import lazy
 
+from screenshots import (
+    take_full_screenshot,
+    take_region_screenshot,
+    take_screen_and_upload,
+)
 from settings import (
     clipboard_selector,
     home,
@@ -8,7 +13,6 @@ from settings import (
     password_manager,
     password_selector,
     rofi_bash,
-    scrot_command,
     terminal,
 )
 
@@ -85,14 +89,20 @@ keys = [
     Key(
         [],
         "Print",
-        lazy.spawn(scrot_command.format(args="-s")),
+        take_region_screenshot,
         desc="screenshot selected area",
+    ),
+    Key(
+        ["shift", "control"],
+        "Print",
+        take_screen_and_upload,
+        desc="screenshot screen and upload",
     ),
     Key(
         ["shift"],
         "Print",
-        lazy.spawn(scrot_command.format(args="")),
-        desc="screenshot screen",
+        take_full_screenshot,
+        desc="screenshot full screen",
     ),
     KeyChord(
         [mod],

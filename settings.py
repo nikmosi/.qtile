@@ -51,12 +51,6 @@ clipboard_selector = (
     + f" -theme {home}/.config/rofi/launcher/style-5.rasi"
 )
 
-scrot_command = (
-    f"scrot '{home}/Pictures/Screenshots/%F_%T_$wx$h.png' "
-    + "-e 'xclip -selection clipboard -target image/png -i $f' "
-    + "{args}"
-)
-
 clock_formats = [
     font_awesome_bold.format("  ") + "%I:%M %p",
     font_awesome_bold.format("  ") + "%a, %d %b %Y",
@@ -71,6 +65,7 @@ airq_api = os.getenv("INFO_AIRQUALITYINDEX_API")
 openweather_key = os.getenv("OPENWEATHERMAP_KEY")
 openweather_city = os.getenv("OPENWEATHERMAP_CITY")
 openweather_api = os.getenv("OPENWEATHERMA_API")
+client_id = os.getenv("IMGUR_CLIENT_ID")
 
 wakatime_token = os.getenv("WAKATIME_TOKEN", default="")
 if not wakatime_token:

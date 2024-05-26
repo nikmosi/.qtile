@@ -17,7 +17,8 @@ from custom_widgets.kblEmoji import KblEmoji
 from custom_widgets.nextformatclock import NextFormatsClock
 from custom_widgets.openweathermap import OpenWeatherMap
 from custom_widgets.wakatime import WakaTime
-from custom_widgets.wireguard import Wireguard
+
+# from custom_widgets.wireguard import Wireguard
 from keys import keys
 from settings import (
     Colors,
@@ -195,7 +196,7 @@ screens = [
                 ),
                 cSysTray(icon_size=16, ignored_names=["Prismatik"]),
                 separator,
-                Wireguard(fmt=block, update_inteval=3600),
+                # Wireguard(fmt=block, update_inteval=3600),
                 separator,
                 WakaTime(wakatime_token, fmt=block, update_inteval=30),
                 separator,
