@@ -106,7 +106,7 @@ def get_groups():
         screen_affinity=1,
         matches=[Match(wm_class="discord"), Match(wm_class="vesktop")],
     )
-    setattr(discord, "keycode", "l")
+    setattr(discord, "keycode", "semicolon")
     lazy.group[discord.name].toscreen(discord.screen_affinity)
     chatterino = Group(
         name="chatterino",
