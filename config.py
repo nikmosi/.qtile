@@ -104,7 +104,7 @@ def get_groups():
         name="discord",
         label="の",
         screen_affinity=1,
-        matches=[Match(wm_class="discord")],
+        matches=[Match(wm_class="discord"), Match(wm_class="vesktop")],
     )
     setattr(discord, "keycode", "l")
     lazy.group[discord.name].toscreen(discord.screen_affinity)
