@@ -30,15 +30,6 @@ font_awesome_brands_bold = font_template.format(
 )
 
 home = os.path.expanduser("~")
-mod = "mod4"
-alt = "mod1"
-terminal = "alacritty"
-rofi_bash = home + "/.config/rofi/launcher/launcher.sh"
-
-pass_clip = f"{home}/Applications/pass-clip-helper.sh"
-password_selector = (
-    "alacritty --title fzf-passwordstore --class float_pass -e" + pass_clip
-)
 
 pass_tessen = f"{home}/Applications/pass-tessen-helper.sh"
 password_manager = (
