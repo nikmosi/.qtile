@@ -12,7 +12,7 @@ from libqtile.lazy import lazy
 from groups import extend_keys, get_groups
 from keys import keys
 from screens import get_screens
-from settings import home, mod
+from settings import Colors, home, mod
 
 
 @subscribe.client_new
@@ -34,7 +34,7 @@ def complete_hook():
 
 
 groups = get_groups()
-screens = get_screens(groups)
+screens = get_screens()
 extend_keys(groups, keys)
 
 
@@ -46,7 +46,8 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="FreeMono",
+    font="JetBrainsMono Nerd Font Mono Medium",
+    foreground=Colors.foreground,
     fontsize=16,
     padding=3,
 )

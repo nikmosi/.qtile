@@ -54,8 +54,10 @@ clock_formats = [
     font_awesome_bold.format("  ") + "%I:%M %p",
     font_awesome_bold.format("  ") + "%a, %d %b %Y",
 ]
-block = "[ {} ]"
-separator = widget.TextBox("┇", foreground=Colors.disabled)
+block = "{}"
+separator = widget.TextBox(
+    " ", foreground=Colors.disabled, background=Colors.background
+)
 
 airq_token = os.getenv("INFO_AIRQUALITYINDEX_TOKEN")
 airq_city = os.getenv("INFO_AIRQUALITYINDEX_CITY")

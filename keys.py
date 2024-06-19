@@ -1,11 +1,6 @@
 from libqtile.config import Key, KeyChord
 from libqtile.lazy import lazy
 
-from screenshots import (
-    take_full_screenshot,
-    take_region_screenshot,
-    take_screen_and_upload,
-)
 from settings import (
     clipboard_selector,
     mod,
@@ -13,6 +8,11 @@ from settings import (
     password_selector,
     rofi_bash,
     terminal,
+)
+from utils.screenshots import (
+    take_full_screenshot,
+    take_region_screenshot,
+    take_screen_and_upload,
 )
 
 keys = [

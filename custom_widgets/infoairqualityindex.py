@@ -61,7 +61,7 @@ class InfoAirQualitiIndex(ThreadPoolText):
         self.aqi_getter = aqi_getter
 
     def poll(self):
-        res = """<span foreground="{color}" weight="bold">\uea35</span> {value:2}"""
+        res = """<span foreground="{color}" weight="bold">\uea35</span> {value}"""
         try:
             aqi = self.aqi_getter.get()
         except IOError:

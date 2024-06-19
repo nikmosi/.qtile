@@ -2,6 +2,7 @@ from libqtile import bar, widget
 from libqtile.config import Screen
 from libqtile.lazy import lazy
 
+from custom_widgets.cGroupBox import GroupBox
 from custom_widgets.cSysTray import cSysTray
 from custom_widgets.custom_df import CDF
 from custom_widgets.infoairqualityindex import AqiApi, InfoAirQualitiIndex
@@ -24,22 +25,38 @@ from settings import (
     separator,
     wakatime_token,
 )
+from utils.groups import with_screen_affinity
+
+pulse_volume = widget.PulseVolume(
+    fmt=block.format(font_awesome_bold.format(" ") + "{}"),
+    mouse_callbacks={
+        "Button3": lazy.spawn("pavucontrol -t 3"),
+    },
+    foreground=Colors.foreground,
+)
+memory = widget.Memory(
+    fmt=block,
+    format=font_awesome_bold.format("  ") + "{MemPercent:_>2.0f}%",
+)
+cdf = CDF(
+    fmt=block,
+    format=font_awesome_bold.format("  ") + "{}",
+    update_inteval=60,
+)
+layout_icon = widget.CurrentLayoutIcon(scale=0.6, padding=10)
 
 
-def get_screens(groups):
-    def get_groups_on_screen(screen_index: int):
-        return [i.name for i in groups if i.screen_affinity == screen_index]
-
+def get_screens():
     screens = [
         Screen(
             wallpaper="/home/nik/Pictures/wallpaper/wallhaven-2yj2px.png",
             wallpaper_mode="fill",
             top=bar.Bar(
                 [
-                    widget.CurrentLayoutIcon(),
-                    widget.GroupBox(
+                    layout_icon,
+                    GroupBox(
                         font="FreeMono, Noto Sans CJK JP",
-                        visible_groups=get_groups_on_screen(0),
+                        group_filter=with_screen_affinity(0),
                         hide_unused=False,
                         highlight_method="line",
                         inactive=Colors.disabled,
@@ -47,7 +64,9 @@ def get_screens(groups):
                         highlight_color=Colors.background_alt,
                         foreground=Colors.primary,
                     ),
-                    separator,
+                    widget.TextBox(
+                        "┇", foreground=Colors.disabled, background=Colors.background
+                    ),
                     widget.Prompt(),
                     widget.WindowName(),
                     widget.Chord(
@@ -75,7 +94,6 @@ def get_screens(groups):
                         fmt=block,
                         update_inteval=300,
                     ),
-                    # InfoAirQualitiIndex(IqAirCurl(), fmt=block, update_inteval=300),
                     separator,
                     KblEmoji(
                         name="keyboardlayout",
@@ -83,27 +101,16 @@ def get_screens(groups):
                         fmt=block,
                     ),
                     separator,
-                    widget.Memory(
-                        fmt=block,
-                        format=font_awesome_bold.format("  ") + "{MemPercent:2.0f}%",
-                    ),
+                    memory,
                     separator,
-                    CDF(
-                        fmt=block,
-                        format=font_awesome_bold.format("  ") + "{}",
-                        update_inteval=60,
-                    ),
+                    cdf,
                     separator,
-                    widget.PulseVolume(
-                        fmt=block.format(font_awesome_bold.format(" ") + "{}"),
-                        mouse_callbacks={
-                            "Button3": lazy.spawn("pavucontrol -t 3"),
-                        },
-                    ),
+                    pulse_volume,
                     separator,
                     NextFormatsClock(formats=clock_formats, fmt=block),
+                    separator,
                 ],
-                28,
+                32,
                 border_width=[2, 0, 2, 0],
                 background=Colors.background,
             ),
@@ -113,10 +120,10 @@ def get_screens(groups):
             wallpaper_mode="fill",
             top=bar.Bar(
                 [
-                    widget.CurrentLayoutIcon(),
-                    widget.GroupBox(
+                    layout_icon,
+                    GroupBox(
                         font="FreeMono, Noto Sans CJK JP",
-                        visible_groups=get_groups_on_screen(1),
+                        group_filter=with_screen_affinity(1),
                         highlight_method="line",
                         hide_unsed=False,
                         inactive=Colors.disabled,
@@ -128,23 +135,17 @@ def get_screens(groups):
                     widget.Prompt(),
                     widget.Spacer(),
                     separator,
-                    widget.Memory(
-                        fmt=block,
-                        format=font_awesome_bold.format("  ") + "{MemPercent:.0f}%",
-                    ),
+                    memory,
                     separator,
-                    CDF(fmt=block, format=font_awesome_bold.format("  ") + "{}"),
+                    cdf,
                     separator,
-                    widget.PulseVolume(
-                        fmt=block.format(font_awesome_bold.format(" ") + "{}"),
-                        mouse_callbacks={
-                            "Button3": lazy.spawn("pavucontrol -t 3"),
-                        },
-                    ),
+                    pulse_volume,
                     separator,
                     NextFormatsClock(formats=clock_formats, fmt=block),
+                    separator,
+                    separator,
                 ],
-                24,
+                32,
                 border_width=[2, 0, 2, 0],
                 background=Colors.background,
             ),

@@ -18,7 +18,7 @@ class Wireguard(InLoopPollText):
         self, configs_path="/etc/wireguard", default_text="", **config
     ) -> None:
         self.configs_path = configs_path
-        text = "<span foreground='{color}'>{text}</span>"
+        text = "<span foreground='{color}' font_size='20pt'>{text}</span>"
         self.disconnected_text = text.format(
             color=SettingColors.disabled, text=default_text
         )
