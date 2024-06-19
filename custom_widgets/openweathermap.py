@@ -1,4 +1,3 @@
-import json
 from http import HTTPStatus
 from typing import Literal
 
@@ -94,7 +93,7 @@ class OpenWeatherMap(ThreadPoolText):
         if ans.status_code != HTTPStatus.OK:
             logger.error(f"didn't get and from {self.url}")
             return ""
-        data = json.loads(ans.text)
+        data = ans.json()
 
         weather_desc = data["weather"][0]["description"]
         weather_temp = int(data["main"]["temp"])

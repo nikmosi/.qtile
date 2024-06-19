@@ -1,4 +1,3 @@
-import json
 from base64 import b64encode
 from http import HTTPStatus
 
@@ -20,6 +19,6 @@ class WakaTime(ThreadPoolText):
         if ans.status_code != HTTPStatus.OK:
             logger.error(f"didn't get and from {self.url}")
             return ""
-        data = json.loads(ans.text)
+        data = ans.json()
         wakatime_today: str = data["data"]["grand_total"]["text"]
         return "" if wakatime_today.isspace() else f" {wakatime_today}"

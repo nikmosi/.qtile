@@ -1,4 +1,3 @@
-import json
 import re
 from abc import ABC, abstractmethod
 from http import HTTPStatus
@@ -40,7 +39,7 @@ class AqiApi(AqiGetter):
         if ans.status_code != HTTPStatus.OK:
             logger.error(f"didn't get and from {self.url}")
             raise IOError()
-        data = json.loads(ans.text)
+        data = ans.json()
         status = data["status"]
         if status != "ok":
             logger.error(f"get {status=}")
