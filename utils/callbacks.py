@@ -1,7 +1,7 @@
 from libqtile.lazy import LazyCall, lazy
 
 
-def combine(self, *funcs: LazyCall):
+def combine(*funcs: LazyCall):
     @lazy.function
     def executor(qtile):
         for i in funcs:

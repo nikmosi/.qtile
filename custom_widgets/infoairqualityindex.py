@@ -7,6 +7,8 @@ import requests
 from libqtile.widget.base import ThreadPoolText
 from loguru import logger
 
+from utils import formats
+
 
 class AqiGetter(ABC):
     @abstractmethod
@@ -56,7 +58,7 @@ class InfoAirQualitiIndex(ThreadPoolText):
         purple = "#660099"
         red = "#7e0023"
 
-    def __init__(self, aqi_getter: AqiGetter, text="", **config):
+    def __init__(self, aqi_getter: AqiGetter, text: str = "", **config):
         super().__init__(text, **config)
         self.aqi_getter = aqi_getter
 
@@ -66,14 +68,16 @@ class InfoAirQualitiIndex(ThreadPoolText):
             aqi = self.aqi_getter.get()
         except IOError:
             return res.format(color=self.Colors.red, value="=")
-        if aqi < 50:
-            return res.format(color=self.Colors.green, value=aqi)
-        elif aqi < 100:
-            return res.format(color=self.Colors.yellow, value=aqi)
-        elif aqi < 150:
-            return res.format(color=self.Colors.orange, value=aqi)
-        elif aqi < 200:
-            return res.format(color=self.Colors.pink, value=aqi)
-        elif aqi < 300:
-            return res.format(color=self.Colors.purple, value=aqi)
-        return res.format(color=self.Colors.red, value=aqi)
+        else:
+            padded_aqi = formats.ljust_with_disabled_zero(2, str(aqi))
+            if aqi < 50:
+                return res.format(color=self.Colors.green, value=padded_aqi)
+            elif aqi < 100:
+                return res.format(color=self.Colors.yellow, value=padded_aqi)
+            elif aqi < 150:
+                return res.format(color=self.Colors.orange, value=padded_aqi)
+            elif aqi < 200:
+                return res.format(color=self.Colors.pink, value=padded_aqi)
+            elif aqi < 300:
+                return res.format(color=self.Colors.purple, value=padded_aqi)
+        return res.format(color=self.Colors.red, value=padded_aqi)

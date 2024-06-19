@@ -73,3 +73,5 @@ if not wakatime_token:
     err = "wakatime_token is none"
     logger.error(err)
     raise Exception(err)
+
+disabled_zero_pad = f"<span foreground='{Colors.disabled}'>0</span>"
