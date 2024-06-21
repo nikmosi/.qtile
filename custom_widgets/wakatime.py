@@ -18,7 +18,7 @@ class WakaTime(ThreadPoolText):
         )
         if ans.status_code != HTTPStatus.OK:
             logger.error(f"didn't get and from {self.url}")
-            return ""
+            return ""
         data = ans.json()
         wakatime_today: str = data["data"]["grand_total"]["text"]
         return "" if wakatime_today.isspace() else f" {wakatime_today}"
