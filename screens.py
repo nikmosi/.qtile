@@ -35,11 +35,9 @@ pulse_volume = widget.PulseVolume(
     foreground=Colors.foreground,
 )
 memory = widget.Memory(
-    fmt=block,
     format=font_awesome_bold.format("  ") + "{MemPercent:_>2.0f}%",
 )
 cdf = CDF(
-    fmt=block,
     format=font_awesome_bold.format("  ") + "{}",
     update_inteval=60,
 )
@@ -70,28 +68,25 @@ def get_screens():
                     widget.Prompt(),
                     widget.WindowName(),
                     widget.Chord(
-                        fmt=block,
                         chords_colors={
                             "Shutdown": (Colors.alert, Colors.foreground),
                         },
                     ),
                     cSysTray(icon_size=16, ignored_names=["Prismatik"]),
                     separator,
-                    Wireguard(fmt=block, update_inteval=3600),
+                    Wireguard(update_inteval=3600),
                     separator,
-                    WakaTime(wakatime_token, fmt=block, update_inteval=30),
+                    WakaTime(wakatime_token, update_inteval=30),
                     separator,
                     OpenWeatherMap(
                         openweather_api,
                         openweather_key,
                         openweather_city,
-                        fmt=block,
                         update_inteval=300,
                     ),
                     separator,
                     InfoAirQualitiIndex(
                         AqiApi(airq_token, airq_city, airq_api),
-                        fmt=block,
                         update_inteval=300,
                     ),
                     separator,
@@ -101,12 +96,11 @@ def get_screens():
                     separator,
                     pulse_volume,
                     separator,
-                    NextFormatsClock(formats=clock_formats, fmt=block),
+                    NextFormatsClock(formats=clock_formats),
                     separator,
                     KblEmoji(
                         name="keyboardlayout",
                         configured_keyboards=["us", "ru,us"],
-                        fmt=block,
                     ),
                     separator,
                 ],
@@ -141,7 +135,7 @@ def get_screens():
                     separator,
                     pulse_volume,
                     separator,
-                    NextFormatsClock(formats=clock_formats, fmt=block),
+                    NextFormatsClock(formats=clock_formats),
                     separator,
                     separator,
                 ],

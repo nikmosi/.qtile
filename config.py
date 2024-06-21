@@ -12,7 +12,7 @@ from libqtile.lazy import lazy
 from groups import extend_keys, get_groups
 from keys import keys
 from screens import get_screens
-from settings import Colors, home, mod
+from settings import Colors, block, home, mod
 
 
 @subscribe.client_new
@@ -50,6 +50,7 @@ widget_defaults = dict(
     foreground=Colors.foreground,
     fontsize=16,
     padding=3,
+    fmt=block,
 )
 extension_defaults = widget_defaults.copy()
 

@@ -56,7 +56,7 @@ clock_formats = [
 ]
 block = "{}"
 separator = widget.TextBox(
-    " ", foreground=Colors.disabled, background=Colors.background
+    " ", foreground=Colors.disabled, background=Colors.background, fmt="{}"
 )
 
 airq_token = os.getenv("INFO_AIRQUALITYINDEX_TOKEN")
