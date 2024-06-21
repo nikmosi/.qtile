@@ -5,37 +5,27 @@ from pathlib import Path
 from libqtile.lazy import lazy
 from libqtile.utils import send_notification
 
-from settings import client_id, home
-
-scrot_command = (
-    f"scrot '{home}/Pictures/Screenshots/%F_%T_$wx$h.png' "
-    + " {args} "
-    + "-e 'echo $f' "
-)
-
-xclip_image = "xclip -selection clipboard -target image/png -i {file}"
-
-xclip_text = "echo -n '{text}' | xclip -sel clip"
-
-imgur_curl = f"""
-curl --location 'https://api.imgur.com/3/image' \
---header 'Authorization: Client-ID {client_id}' \
---form 'image=@"{{filepath}}"' \
---form 'type="image"' \
---form 'title="screenshot"' \
---form 'description="(:"'
-"""
+from settings import home, imgur_curl, maim_command, xclip_image, xclip_text
 
 
-def call_scrot(args: str = "") -> Path:
+def get_path() -> Path:
     path = sb.check_output(
-        scrot_command.format(args=args), text=True, encoding="UTF-8", shell=True
+        f"echo {home}/Pictures/Screenshots/$(date +%F_%T_)$RANDOM.png",
+        shell=True,
+        text=True,
     ).strip()
     return Path(path)
 
 
-def image_path_to_clip(path: Path) -> None:
-    sb.check_call(xclip_image.format(file=path), text=True, shell=True)
+def call_screenshot_command(args: str = "") -> Path | None:
+    path = get_path()
+    command = maim_command.format(args=f"{path} {args}")
+    try:
+        sb.check_call(command, shell=True)
+    except sb.CalledProcessError:
+        send_notification("error", "can't take screen")
+    else:
+        return path
 
 
 def upload(path: Path) -> str:
@@ -45,29 +35,23 @@ def upload(path: Path) -> str:
     return json.loads(out)["link"]
 
 
-def text_to_clip(text: str):
-    sb.check_call(xclip_text.format(text=text), shell=True)
-
-
-def take_screenshot(args: str = ""):
-    path = call_scrot(args)
-    image_path_to_clip(path)
-    send_notification("screenshot", "image in clipboard")
+@lazy.function
+def take_full_screenshot(_):
+    path = call_screenshot_command()
+    sb.check_call(xclip_image.format(path=path), shell=True)
 
 
 @lazy.function
-def take_full_screenshot(*args, **kwargs):
-    take_screenshot()
+def take_region_screenshot(_):
+    path = call_screenshot_command(" -s")
+    sb.check_call(xclip_image.format(path=path), shell=True)
 
 
 @lazy.function
-def take_region_screenshot(*args, **kwargs):
-    take_screenshot("-s")
-
-
-@lazy.function
-def take_screen_and_upload(*args, **kwargs):
-    path = call_scrot("-s")
+def take_screen_and_upload(_):
+    path = call_screenshot_command(" -s")
+    if not path:
+        return
     link = upload(path)
-    text_to_clip(link)
+    sb.check_call(xclip_text.format(text=link), shell=True)
     send_notification("screenshot", f"link in clip - {link}")

@@ -59,6 +59,10 @@ separator = widget.TextBox(
     " ", foreground=Colors.disabled, background=Colors.background, fmt="{}"
 )
 
+maim_command = "maim {args}"
+xclip_image = "xclip -selection clipboard -t image/png {path}"
+xclip_text = "echo -n '{text}' | xclip -sel clip"
+
 airq_token = os.getenv("INFO_AIRQUALITYINDEX_TOKEN")
 airq_city = os.getenv("INFO_AIRQUALITYINDEX_CITY")
 airq_api = os.getenv("INFO_AIRQUALITYINDEX_API")
@@ -76,3 +80,12 @@ if not wakatime_token:
 
 disabled_text = f"<span foreground='{Colors.disabled}'>{{text}}</span>"
 disabled_zero_pad = disabled_text.format(text="0")
+
+imgur_curl = f"""
+curl --location 'https://api.imgur.com/3/image' \
+--header 'Authorization: Client-ID {client_id}' \
+--form 'image=@"{{filepath}}"' \
+--form 'type="image"' \
+--form 'title="screenshot"' \
+--form 'description="(:"'
+"""
