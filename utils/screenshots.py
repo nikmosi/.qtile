@@ -28,23 +28,36 @@ def call_screenshot_command(args: str = "") -> Path | None:
         return path
 
 
-def upload(path: Path) -> str:
-    out = sb.check_output(
-        imgur_curl.format(filepath=path), text=True, shell=True
-    ).strip()
-    return json.loads(out)["link"]
+def upload(path: Path) -> str | None:
+    try:
+        out = sb.check_output(
+            imgur_curl.format(filepath=path), text=True, shell=True
+        ).strip()
+        link = json.loads(out)["data"]["link"]
+    except sb.CalledProcessError:
+        send_notification("can't upload", "process error")
+    except KeyError:
+        send_notification("can't upload", "key error")
+    else:
+        return link
+
+
+def to_clip(path: Path | None):
+    if not path:
+        return
+    sb.check_call(xclip_image.format(path=path), shell=True)
 
 
 @lazy.function
 def take_full_screenshot(_):
     path = call_screenshot_command()
-    sb.check_call(xclip_image.format(path=path), shell=True)
+    to_clip(path)
 
 
 @lazy.function
 def take_region_screenshot(_):
     path = call_screenshot_command(" -s")
-    sb.check_call(xclip_image.format(path=path), shell=True)
+    to_clip(path)
 
 
 @lazy.function
@@ -53,5 +66,7 @@ def take_screen_and_upload(_):
     if not path:
         return
     link = upload(path)
+    if not link:
+        return
     sb.check_call(xclip_text.format(text=link), shell=True)
     send_notification("screenshot", f"link in clip - {link}")
