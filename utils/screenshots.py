@@ -1,11 +1,13 @@
 import json
 import subprocess as sb
 from pathlib import Path
+from typing import Callable
 
 from libqtile.lazy import lazy
 from libqtile.utils import send_notification
 
 from settings import home, imgur_curl, maim_command, xclip_image, xclip_text
+from utils.cli import call_rofi_dmenu
 
 
 def get_path() -> Path:
@@ -48,23 +50,38 @@ def to_clip(path: Path | None):
     sb.check_call(xclip_image.format(path=path), shell=True)
 
 
+def get_alternative_screenshot_funcs() -> dict[str, Callable]:
+    dic = {}
+    for i in [take_full_screenshot, take_screen_and_upload]:
+        dic[i.__name__] = i
+    return dic
+
+
 @lazy.function
-def take_full_screenshot(_):
+def take_screenshot_alternative(_):
+    var = get_alternative_screenshot_funcs()
+    res = call_rofi_dmenu(var.keys())
+    if not res:
+        return
+    var[res]()
+
+
+@lazy.function
+def take_screenshot(_):
+    path = call_screenshot_command(" -s")
+    to_clip(path)
+
+
+def take_full_screenshot():
     path = call_screenshot_command()
     to_clip(path)
 
 
-@lazy.function
-def take_region_screenshot(_):
-    path = call_screenshot_command(" -s")
-    to_clip(path)
-
-
-@lazy.function
-def take_screen_and_upload(_):
+def take_screen_and_upload():
     path = call_screenshot_command(" -s")
     if not path:
         return
+    send_notification("screenshot", "uploading")
     link = upload(path)
     if not link:
         return

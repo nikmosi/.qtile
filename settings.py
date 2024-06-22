@@ -44,10 +44,12 @@ password_manager = (
     "alacritty --title fzf-passwordstore --class float_pass -e " + pass_tessen
 )
 
+rofi_theme = f" -theme {home}/.config/rofi/launcher/style-5.rasi "
+
 
 clipboard_selector = (
     "rofi -modi \"clipboard:greenclip print\" -show clipboard -run-command '{cmd}' "
-    + f" -theme {home}/.config/rofi/launcher/style-5.rasi"
+    + rofi_theme
 )
 
 clock_formats = [

@@ -9,11 +9,7 @@ from settings import (
     rofi_bash,
     terminal,
 )
-from utils.screenshots import (
-    take_full_screenshot,
-    take_region_screenshot,
-    take_screen_and_upload,
-)
+from utils.screenshots import take_screenshot, take_screenshot_alternative
 
 keys = [
     Key(["mod1"], "Shift_L", lazy.widget["keyboardlayout"].next_keyboard()),
@@ -88,20 +84,14 @@ keys = [
     Key(
         [],
         "Print",
-        take_region_screenshot,
-        desc="screenshot selected area",
-    ),
-    Key(
-        ["shift", "control"],
-        "Print",
-        take_screen_and_upload,
-        desc="screenshot screen and upload",
+        take_screenshot,
+        desc="take screenshot",
     ),
     Key(
         ["shift"],
         "Print",
-        take_full_screenshot,
-        desc="screenshot full screen",
+        take_screenshot_alternative,
+        desc="take alternative screenshot",
     ),
     KeyChord(
         [mod],
