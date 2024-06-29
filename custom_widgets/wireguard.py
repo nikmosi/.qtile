@@ -6,8 +6,9 @@ from libqtile.lazy import lazy
 from libqtile.widget.base import InLoopPollText
 from loguru import logger
 
+from custom_widgets.exceptions.wireguard import CantFindConfig
 from settings import Colors as SettingColors
-from settings import home
+from utils.cli import call_rofi_dmenu
 
 
 class Wireguard(InLoopPollText):
@@ -34,16 +35,10 @@ class Wireguard(InLoopPollText):
     def select_config(self, confs: list[str]) -> str:
         if len(confs) == 1:
             return confs[0]
-        return sb.check_output(
-            [
-                "rofi",
-                "-dmenu",
-                "-theme",
-                join(home, "/.config/rofi/launcher/style-5.rasi"),
-            ],
-            input="\n".join(confs),
-            text=True,
-        )
+        assert len(confs) > 0
+        config = call_rofi_dmenu(confs)
+        assert config
+        return config
 
     def toggle_wrap(self):
         def wrapper(_):
@@ -73,8 +68,9 @@ class Wireguard(InLoopPollText):
         all_configs = [i for i in all_files if i.endswith(".conf")]
 
         if not all_configs:
-            logger.warning(f"no configs in {self.configs_path}")
-            return
+            msg = f"no configs in {self.configs_path}"
+            logger.warning(msg)
+            raise CantFindConfig(msg)
 
         selected_config = self.select_config(all_configs)
 

@@ -51,25 +51,32 @@ def to_clip(path: Path | None):
 
 
 def get_alternative_screenshot_funcs() -> dict[str, Callable]:
-    dic = {}
-    for i in [take_full_screenshot, take_screen_and_upload]:
-        dic[i.__name__] = i
-    return dic
+    funcs = [take_full_screenshot, take_screen_and_upload, recongnize_qr]
+    return {i.__name__: i for i in funcs}
 
 
 @lazy.function
 def take_screenshot_alternative(_):
-    var = get_alternative_screenshot_funcs()
-    res = call_rofi_dmenu(var.keys())
-    if not res:
+    variants = get_alternative_screenshot_funcs()
+    rofi_response = call_rofi_dmenu(variants.keys())
+    if not rofi_response:
         return
-    var[res]()
+    variants[rofi_response]()
 
 
 @lazy.function
 def take_screenshot(_):
     path = call_screenshot_command(" -s")
     to_clip(path)
+
+
+def recongnize_qr():
+    try:
+        sb.check_call(
+            "maim -qs | zbarimg -q --raw - | xclip -selection clipboard -f", shell=True
+        )
+    except sb.CalledProcessError:
+        send_notification("error", "can't screenshot")
 
 
 def take_full_screenshot():

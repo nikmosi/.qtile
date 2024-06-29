@@ -15,6 +15,16 @@ class Colors:
     disabled = "#707880"
 
 
+# class Colors:
+#     background = "#13100f"
+#     background_alt = "#373B41"
+#     foreground = "#f0eae4"
+#     primary = "#CE9987"
+#     secondary = "#5697C3"
+#     alert = "#A54242"
+#     disabled = "#a8a39f"
+
+
 dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
@@ -32,7 +42,6 @@ font_awesome_brands_bold = font_template.format(
 home = os.path.expanduser("~")
 mod = "mod4"
 terminal = "alacritty"
-rofi_bash = home + "/.config/rofi/launcher/launcher.sh"
 
 pass_clip = f"{home}/Applications/pass-clip-helper.sh"
 password_selector = (
@@ -44,7 +53,8 @@ password_manager = (
     "alacritty --title fzf-passwordstore --class float_pass -e " + pass_tessen
 )
 
-rofi_theme = f" -theme {home}/.config/rofi/launcher/style-5.rasi "
+rofi_theme = " -theme gruvbox-dark "
+rofi_command = home + "/.config/rofi/launcher.sh"
 
 
 clipboard_selector = (
