@@ -78,7 +78,11 @@ def get_groups():
         name="discord",
         label="の",
         screen_affinity=1,
-        matches=[Match(wm_class="discord"), Match(wm_class="vesktop")],
+        matches=[
+            Match(wm_class="discord"),
+            Match(wm_class="vesktop"),
+            Match(wm_class="ayugram-desktop"),
+        ],
     )
     setattr(discord, "keycode", "semicolon")
     lazy.group[discord.name].toscreen(discord.screen_affinity)
