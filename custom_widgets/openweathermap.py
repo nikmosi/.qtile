@@ -1,92 +1,38 @@
+from abc import ABC, abstractmethod
 from http import HTTPStatus
-from typing import Literal
+from typing import override
 
 import requests
 from libqtile.widget.base import ThreadPoolText
 from loguru import logger
 
 
+class IconProvider(ABC):
+    @abstractmethod
+    def get_icon(self, weather_icon: str) -> str:
+        """
+        By code of icon return unicode icon
+        """
+        raise NotImplementedError
+
+
 class OpenWeatherMap(ThreadPoolText):
-    def __init__(self, api, key, city_id, units="metric", text="", **config):
+    def __init__(
+        self,
+        api,
+        key,
+        city_id,
+        icon_provider: IconProvider | None = None,
+        units="metric",
+        text="",
+        **config,
+    ):
         super().__init__(text, **config)
         self.url = f"{api}/weather?appid={key}&id={city_id}&units={units}"
+        self.icon_provider = icon_provider if icon_provider else FontAwesome5Pro()
 
-    def get_weather_icons_font(self, weather_icon):
-        match weather_icon:
-            case "01d":
-                icon = ""
-            case "01n":
-                icon = ""
-            case "02d":
-                icon = ""
-            case "02n":
-                icon = ""
-            case "03d" | "03n":
-                icon = ""
-            case "04d" | "04n":
-                icon = ""
-            case "09d":
-                icon = ""
-            case "09n":
-                icon = ""
-            case "10d":
-                icon = ""
-            case "10n":
-                icon = ""
-            case "11d":
-                icon = ""
-            case "11n":
-                icon = ""
-            case "13d":
-                icon = ""
-            case "13n":
-                icon = ""
-            case "50d":
-                icon = ""
-            case "50n":
-                icon = ""
-            case _:
-                icon = ""
-        return icon
-
-    def get_font_awesome_5_pro_icon(self, weather_icon):
-        match weather_icon:
-            case "01d":
-                icon = ""
-            case "01n":
-                icon = ""
-            case "02d":
-                icon = ""
-            case "02n":
-                icon = ""
-            case "03d":
-                icon = ""
-            case "03n":
-                icon = ""
-            case "04*":
-                icon = ""
-            case "09*":
-                icon = ""
-            case "10d":
-                icon = ""
-            case "10n":
-                icon = ""
-            case "11*":
-                icon = ""
-            case "13*":
-                icon = ""
-            case "50*":
-                icon = ""
-            case _:
-                icon = ""
-        return icon
-
-    def get_icon(self, weather_icon, font: Literal["weather", "awesome"] = "weather"):
-        match font:
-            case "weather":
-                return self.get_weather_icons_font(weather_icon)
-            case "awesome":
-                return self.get_font_awesome_5_pro_icon(weather_icon)
+    def get_icon(self, weather_icon):
+        return self.icon_provider.get_icon(weather_icon)
 
     def poll(self):
         ans = requests.get(self.url)
@@ -103,3 +49,57 @@ class OpenWeatherMap(ThreadPoolText):
         icon_formatting = """<span font_family="Weather Icons">{}</span>"""
         icon = icon_formatting.format(self.get_icon(weather_icon))
         return f"{icon} {weather_desc} {weather_temp}{symbol}"
+
+
+class WeatherIcon(IconProvider):
+    @override
+    def get_icon(self, weather_icon: str) -> str:
+        icon_map = {
+            "01d": "",
+            "01n": "",
+            "02d": "",
+            "02n": "",
+            "03d": "",
+            "03n": "",
+            "04d": "",
+            "04n": "",
+            "09d": "",
+            "09n": "",
+            "10d": "",
+            "10n": "",
+            "11d": "",
+            "11n": "",
+            "13d": "",
+            "13n": "",
+            "50d": "",
+            "50n": "",
+        }
+        default_icon = ""
+        return icon_map.get(weather_icon, default_icon)
+
+
+class FontAwesome5Pro(IconProvider):
+    @override
+    def get_icon(self, weather_icon: str) -> str:
+        icon_map = {
+            "01d": "",
+            "01n": "",
+            "02d": "",
+            "02n": "",
+            "03d": "",
+            "03n": "",
+            "04n": "",
+            "04d": "",
+            "09n": "",
+            "09d": "",
+            "10d": "",
+            "10n": "",
+            "11n": "",
+            "11d": "",
+            "13n": "",
+            "13d": "",
+            "50n": "",
+            "50d": "",
+        }
+        default_icon = ""
+        return icon_map.get(weather_icon, default_icon)
