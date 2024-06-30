@@ -1,6 +1,9 @@
 import subprocess as sb
 
+from libqtile.lazy import lazy
 from libqtile.widget.base import ThreadPoolText
+
+from utils.callbacks import combine
 
 
 class CDF(ThreadPoolText):
@@ -8,6 +11,11 @@ class CDF(ThreadPoolText):
 
     def __init__(self, text="N/A", **config):
         super().__init__(text, **config)
+        key = "Button1"
+        callback = lazy.function(lambda _: self.poll())
+        if call := self.mouse_callbacks.get(key):
+            callback = combine(callback, call)
+        self.mouse_callbacks[key] = callback
 
     def poll(self):
         out = sb.check_output(
