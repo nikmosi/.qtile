@@ -11,7 +11,7 @@ class WakaTime(ThreadPoolText):
         super().__init__(text, **config)
         self.token = b64encode(token.encode("ascii")).decode("ascii")
 
-    def poll(self):
+    def poll(self) -> str:
         ans = requests.get(
             "https://wakatime.com/api/v1/users/current/status_bar/today",
             headers={"Authorization": f"Basic {self.token}"},

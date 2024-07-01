@@ -2,7 +2,7 @@ import subprocess as sb
 from os import listdir
 from os.path import isfile, join
 
-from libqtile.lazy import lazy
+from libqtile.lazy import LazyCall, lazy
 from libqtile.widget.base import InLoopPollText
 from loguru import logger
 
@@ -24,7 +24,7 @@ class Wireguard(InLoopPollText):
             color=SettingColors.disabled, text=default_text
         )
         self.connected_text = text.format(color=self.Color.green, text=default_text)
-        self.mouse_callbacks = {"Button1": lazy.function(self.toggle_wrap())}
+        self.mouse_callbacks = {"Button1": self.toggle_wrap()}
         logger.info(str(self.get_routable_interface()))
         super().__init__(default_text=default_text, **config)
 
@@ -40,7 +40,8 @@ class Wireguard(InLoopPollText):
         assert config
         return config
 
-    def toggle_wrap(self):
+    def toggle_wrap(self) -> LazyCall:
+        @lazy.function
         def wrapper(_):
             self.toggle()
 
@@ -53,15 +54,15 @@ class Wireguard(InLoopPollText):
             else self.disconnected_text
         )
 
-    def toggle(self):
+    def toggle(self) -> None:
         self.disconnect() if self.get_routable_interface() else self.connect()
 
-    def disconnect(self):
+    def disconnect(self) -> None:
         for connected_config in self.get_routable_interface():
             sb.check_call(["wg-quick", "down", connected_config])
         self.update(self.disconnected_text)
 
-    def connect(self):
+    def connect(self) -> None:
         all_files = [
             f for f in listdir(self.configs_path) if isfile(join(self.configs_path, f))
         ]

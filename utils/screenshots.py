@@ -44,7 +44,7 @@ def upload(path: Path) -> str | None:
         return link
 
 
-def to_clip(path: Path | None):
+def to_clip(path: Path | None) -> None:
     if not path:
         return
     sb.check_call(xclip_image.format(path=path), shell=True)
@@ -56,7 +56,7 @@ def get_alternative_screenshot_funcs() -> dict[str, Callable]:
 
 
 @lazy.function
-def take_screenshot_alternative(_):
+def take_screenshot_alternative(_) -> None:
     variants = get_alternative_screenshot_funcs()
     rofi_response = call_rofi_dmenu(variants.keys())
     if not rofi_response:
@@ -65,12 +65,12 @@ def take_screenshot_alternative(_):
 
 
 @lazy.function
-def take_screenshot(_):
+def take_screenshot(_) -> None:
     path = call_screenshot_command(" -s")
     to_clip(path)
 
 
-def recongnize_qr():
+def recongnize_qr() -> None:
     try:
         sb.check_call(
             "maim -qs | zbarimg -q --raw - | xclip -selection clipboard -f", shell=True

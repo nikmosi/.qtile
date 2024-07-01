@@ -16,19 +16,19 @@ from settings import Colors, block, home, mod
 
 
 @subscribe.client_new
-def new_clinet(client):
+def new_clinet(client) -> None:
     if "pavucontrol" in client.get_wm_class():
         client.set_position_floating(2040, 47)
         client.set_size(500, 600)
 
 
 @subscribe.startup_once
-def auto_lunch():
+def auto_lunch() -> None:
     sb.call([home + "/.config/qtile/autostart.sh"])
 
 
 @subscribe.startup_complete
-def complete_hook():
+def complete_hook() -> None:
     qtile.groups_map["firefox"].toscreen(0)
     qtile.groups_map["chatterino"].toscreen(1)
 
@@ -84,6 +84,7 @@ floating_layout = floating.Floating(
         Match(wm_class="StartWine"),
         Match(wm_class="qbittorrent"),
         Match(wm_class="float_pass"),
+        Match(wm_class="floating_wm_class"),
         Match(wm_class="ripdrag"),
         # Match(wm_class="pavucontrol"),
         Match(wm_class="ssh-askpass"),  # ssh-askpass

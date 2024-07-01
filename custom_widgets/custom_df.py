@@ -17,7 +17,7 @@ class CDF(ThreadPoolText):
             callback = combine(callback, call)
         self.mouse_callbacks[key] = callback
 
-    def poll(self):
+    def poll(self) -> str:
         out = sb.check_output(
             "sudo btrfs filesystem usage -b /".split(), text=True
         ).split("\n")

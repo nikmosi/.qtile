@@ -1,7 +1,7 @@
 import subprocess as sb
 from typing import Iterable
 
-from libqtile.utils import send_notification
+from loguru import logger
 
 from settings import rofi_theme
 
@@ -13,6 +13,6 @@ def call_rofi_dmenu(values: Iterable[str]) -> str | None:
             command, shell=True, text=True, input="\n".join(values)
         ).strip()
     except sb.CalledProcessError:
-        send_notification("error", f"problem with {command}")
+        logger.debug(f"process exit with error. {command}")
     else:
         return ans

@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 from typing import Callable
 
 from libqtile import widget
@@ -12,7 +13,7 @@ class GroupBox(widget.GroupBox):
         super().__init__(*args, **kwargs)
 
     @property
-    def groups(self):
+    def groups(self) -> Sequence[Group]:
         su = super().groups
         if not self.group_filter:
             return su

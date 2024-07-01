@@ -1,4 +1,5 @@
 import re
+from collections.abc import Sequence
 from dataclasses import dataclass
 
 from libqtile.config import Group, Key, Match
@@ -14,7 +15,7 @@ class ScreenSettings:
     group_count: int
 
 
-def extend_keys(groups, keys_src):
+def extend_keys(groups: Sequence[Group], keys_src: Sequence[Key]) -> None:
     for i in groups:
         key = i.keycode
         keys_src.extend(
@@ -35,7 +36,7 @@ def extend_keys(groups, keys_src):
         )
 
 
-def to_japanese_number(num: int):
+def to_japanese_number(num: int) -> str:
     japanese_map = {
         1: "一",
         2: "二",
@@ -51,7 +52,7 @@ def to_japanese_number(num: int):
     return jpn_num if jpn_num is not None else "Out of range"
 
 
-def get_groups():
+def get_groups() -> Sequence[Group]:
     res = []
     for screen in [
         ScreenSettings(index=0, key_prefix="{}", group_count=5),

@@ -1,3 +1,5 @@
+from collections.abc import Sequence
+
 from libqtile import bar, widget
 from libqtile.config import Screen
 from libqtile.lazy import lazy
@@ -44,7 +46,7 @@ cdf = CDF(
 layout_icon = widget.CurrentLayoutIcon(scale=0.6, padding=10)
 
 
-def get_screens():
+def get_screens() -> Sequence[Screen]:
     screens = [
         Screen(
             wallpaper="/home/nik/Pictures/wallpaper/wallhaven-2yj2px.png",

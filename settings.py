@@ -5,6 +5,15 @@ from libqtile import widget
 from loguru import logger
 
 
+class InfoAirQualityColors:
+    green = "#009966"
+    yellow = "#ffde33"
+    orange = "#ff9933"
+    pink = "#cc0033"
+    purple = "#660099"
+    red = "#7e0023"
+
+
 class Colors:
     background = "#282A2E"
     background_alt = "#373B41"

@@ -5,7 +5,7 @@ class KblEmoji(widget.KeyboardLayout):
     def __init__(self, **config) -> None:
         super().__init__(**config)
 
-    def poll(self):
+    def poll(self) -> str:
         res = super().poll()
         if res == "RU":
             return "🇷🇺"

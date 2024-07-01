@@ -31,10 +31,10 @@ class OpenWeatherMap(ThreadPoolText):
         self.url = f"{api}/weather?appid={key}&id={city_id}&units={units}"
         self.icon_provider = icon_provider if icon_provider else FontAwesome5Pro()
 
-    def get_icon(self, weather_icon):
+    def get_icon(self, weather_icon) -> str:
         return self.icon_provider.get_icon(weather_icon)
 
-    def poll(self):
+    def poll(self) -> str:
         ans = requests.get(self.url)
         if ans.status_code != HTTPStatus.OK:
             logger.error(f"didn't get and from {self.url}")
