@@ -60,7 +60,7 @@ def get_groups() -> Sequence[Group]:
     ]:
         for i in range(1, screen.group_count + 1):
             group = Group(
-                str(len(res) + 1),
+                str(len(res)),
                 label=str(to_japanese_number(i)),
                 screen_affinity=screen.index,
             )
@@ -83,6 +83,7 @@ def get_groups() -> Sequence[Group]:
             Match(wm_class="discord"),
             Match(wm_class="vesktop"),
             Match(wm_class="ayugram-desktop"),
+            Match(wm_class="anilibrix"),
         ],
     )
     setattr(discord, "keycode", "semicolon")
