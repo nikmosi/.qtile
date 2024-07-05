@@ -26,6 +26,8 @@ from settings import (
     openweather_key,
     separator,
     wakatime_token,
+    wallpaper_screen_1,
+    wallpaper_screen_2,
 )
 from utils.groups import with_screen_affinity
 
@@ -49,7 +51,7 @@ layout_icon = widget.CurrentLayoutIcon(scale=0.6, padding=10)
 def get_screens() -> Sequence[Screen]:
     screens = [
         Screen(
-            wallpaper="/home/nik/Pictures/wallpaper/wallhaven-2yj2px.png",
+            wallpaper=wallpaper_screen_1,
             wallpaper_mode="fill",
             top=bar.Bar(
                 [
@@ -112,7 +114,7 @@ def get_screens() -> Sequence[Screen]:
             ),
         ),
         Screen(
-            wallpaper="/home/nik/Pictures/wallpaper/wallhaven-vml95l.jpg",
+            wallpaper=wallpaper_screen_2,
             wallpaper_mode="fill",
             top=bar.Bar(
                 [

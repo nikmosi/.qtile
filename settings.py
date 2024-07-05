@@ -24,23 +24,23 @@ class Colors:
     disabled = "#707880"
 
 
-# class Colors:
-#     background = "#13100f"
-#     background_alt = "#373B41"
-#     foreground = "#f0eae4"
-#     primary = "#CE9987"
-#     secondary = "#5697C3"
-#     alert = "#A54242"
-#     disabled = "#a8a39f"
-
-
 dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 
+wallpaper_path = "/home/nik/Pictures/wallpaper"
 
-font_template = "<span foreground='#F0C674' \
-        font_family='{font_family}' weight='{weight}'>{text}</span>"
+wallpaper_screen_1 = (
+    wallpaper_path + "/anime-girl-nun-with-tattoo-4k-wallpaper-uhdpaper.com-740@3@a.jpg"
+)
+wallpaper_screen_2 = (
+    wallpaper_path
+    + "/anime-girl-demon-horn-with-glasses-8k-wallpaper-uhdpaper.com-612@0@j.jpg"
+)
+
+
+font_template = f"<span foreground='{Colors.primary}' \
+        font_family='{{font_family}}' weight='{{weight}}'>{{text}}</span>"
 font_awesome_bold = font_template.format(
     font_family="FontAwesome6Pro", weight="bold", text="{}"
 )
