@@ -1,4 +1,5 @@
 import os
+from os import path
 
 from dotenv import load_dotenv
 from libqtile import widget
@@ -24,18 +25,19 @@ class Colors:
     disabled = "#707880"
 
 
+home = os.path.expanduser("~")
 dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 
-wallpaper_path = "/home/nik/Pictures/wallpaper"
+wallpaper_path = path.join(home, "Pictures", "wallpaper")
 
-wallpaper_screen_1 = (
-    wallpaper_path + "/anime-girl-nun-with-tattoo-4k-wallpaper-uhdpaper.com-740@3@a.jpg"
+wallpaper_screen_1 = path.join(
+    wallpaper_path, "anime-girl-nun-with-tattoo-4k-wallpaper-uhdpaper.com-740@3@a.jpg"
 )
-wallpaper_screen_2 = (
-    wallpaper_path
-    + "/anime-girl-demon-horn-with-glasses-8k-wallpaper-uhdpaper.com-612@0@j.jpg"
+wallpaper_screen_2 = path.join(
+    wallpaper_path,
+    "anime-girl-demon-horn-with-glasses-8k-wallpaper-uhdpaper.com-612@0@j.jpg",
 )
 
 
@@ -48,22 +50,21 @@ font_awesome_brands_bold = font_template.format(
     font_family="FontAwesome6Brands", weight="bold", text="{}"
 )
 
-home = os.path.expanduser("~")
 mod = "mod4"
 terminal = "alacritty"
 
-pass_clip = f"{home}/Applications/pass-clip-helper.sh"
+pass_clip = path.join(home, "Applications", "pass-clip-helper.sh")
 password_selector = (
     "alacritty --title fzf-passwordstore --class float_pass -e" + pass_clip
 )
 
-pass_tessen = f"{home}/Applications/pass-tessen-helper.sh"
+pass_tessen = path.join(home, "Applications", "pass-tessen-helper.sh")
 password_manager = (
     "alacritty --title fzf-passwordstore --class float_pass -e " + pass_tessen
 )
 
 rofi_theme = " -theme gruvbox-dark "
-rofi_command = home + "/.config/rofi/launcher.sh"
+rofi_command = path.join(home, ".config", "rofi", "launcher.sh")
 
 
 clipboard_selector = (

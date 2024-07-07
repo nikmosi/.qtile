@@ -88,7 +88,6 @@ def take_screen_and_upload():
     path = call_screenshot_command(" -s")
     if not path:
         return
-    send_notification("screenshot", "uploading")
     link = upload(path)
     if not link:
         return
