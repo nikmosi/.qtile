@@ -55,8 +55,8 @@ def to_japanese_number(num: int) -> str:
 def get_groups() -> Sequence[Group]:
     res = []
     for screen in [
-        ScreenSettings(index=0, key_prefix="{}", group_count=5),
-        ScreenSettings(index=1, key_prefix="F{}", group_count=4),
+        ScreenSettings(index=0, key_prefix="{}", group_count=8),
+        # ScreenSettings(index=1, key_prefix="F{}", group_count=4),
     ]:
         for i in range(1, screen.group_count + 1):
             group = Group(

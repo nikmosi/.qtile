@@ -30,7 +30,7 @@ def auto_lunch() -> None:
 @subscribe.startup_complete
 def complete_hook() -> None:
     qtile.groups_map["firefox"].toscreen(0)
-    qtile.groups_map["chatterino"].toscreen(1)
+    # qtile.groups_map["chatterino"].toscreen(1)
 
 
 groups = get_groups()
