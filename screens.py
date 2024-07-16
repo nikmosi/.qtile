@@ -68,6 +68,19 @@ def get_screens() -> Sequence[Screen]:
                     widget.TextBox(
                         "┇", foreground=Colors.disabled, background=Colors.background
                     ),
+                    GroupBox(
+                        font="FreeMono, Noto Sans CJK JP",
+                        group_filter=with_screen_affinity(1),
+                        hide_unused=False,
+                        highlight_method="line",
+                        inactive=Colors.disabled,
+                        this_current_screen_border=Colors.primary,
+                        highlight_color=Colors.background_alt,
+                        foreground=Colors.primary,
+                    ),
+                    widget.TextBox(
+                        "┇", foreground=Colors.disabled, background=Colors.background
+                    ),
                     widget.Prompt(),
                     widget.WindowName(),
                     widget.Chord(

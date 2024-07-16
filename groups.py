@@ -23,7 +23,8 @@ def extend_keys(groups: Sequence[Group], keys_src: Sequence[Key]) -> None:
                 Key(
                     [mod],
                     key,
-                    lazy.group[i.name].toscreen(i.screen_affinity),
+                    lazy.group[i.name].toscreen(),
+                    # lazy.group[i.name].toscreen(i.screen_affinity),
                     desc="Switch to group {}".format(i.name),
                 ),
                 Key(
@@ -55,8 +56,8 @@ def to_japanese_number(num: int) -> str:
 def get_groups() -> Sequence[Group]:
     res = []
     for screen in [
-        ScreenSettings(index=0, key_prefix="{}", group_count=8),
-        # ScreenSettings(index=1, key_prefix="F{}", group_count=4),
+        ScreenSettings(index=0, key_prefix="{}", group_count=6),
+        ScreenSettings(index=1, key_prefix="F{}", group_count=4),
     ]:
         for i in range(1, screen.group_count + 1):
             group = Group(
