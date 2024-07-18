@@ -1,5 +1,6 @@
 import os
 from os import path
+from pathlib import Path
 
 from dotenv import load_dotenv
 from libqtile import widget
@@ -25,7 +26,7 @@ class Colors:
     disabled = "#707880"
 
 
-home = os.path.expanduser("~")
+home = Path.home()
 dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
