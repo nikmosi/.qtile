@@ -24,7 +24,7 @@ def new_clinet(client) -> None:
 
 @subscribe.startup_once
 def auto_lunch() -> None:
-    sb.call([home + "/.config/qtile/autostart.sh"])
+    sb.call([home / ".config/qtile/autostart.sh"])
 
 
 @subscribe.startup_complete

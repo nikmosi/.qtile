@@ -3,6 +3,7 @@ from collections.abc import Sequence
 from libqtile import bar, widget
 from libqtile.config import Screen
 from libqtile.lazy import lazy
+from qtile_extras import widget as qwidget
 
 from custom_widgets.cGroupBox import GroupBox
 from custom_widgets.cSysTray import cSysTray
@@ -89,6 +90,15 @@ def get_screens() -> Sequence[Screen]:
                         },
                     ),
                     cSysTray(icon_size=16, ignored_names=["Prismatik"]),
+                    separator,
+                    qwidget.UPowerWidget(),
+                    separator,
+                    widget.Backlight(
+                        format=font_awesome_bold.format("\uf0eb ") + "{percent:2.0%}",
+                        backlight_name="amdgpu_bl1",
+                        step=1,
+                        change_command="light -S {0}",
+                    ),
                     separator,
                     Wireguard(update_inteval=3600),
                     separator,

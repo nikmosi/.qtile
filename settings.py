@@ -34,7 +34,7 @@ if os.path.exists(dotenv_path):
 wallpaper_path = path.join(home, "Pictures", "wallpaper")
 
 wallpaper_screen_1 = path.join(
-    wallpaper_path, "anime-girl-nun-with-tattoo-4k-wallpaper-uhdpaper.com-740@3@a.jpg"
+    wallpaper_path, "first"
 )
 wallpaper_screen_2 = path.join(
     wallpaper_path,
