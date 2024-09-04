@@ -20,11 +20,13 @@ def new_clinet(client) -> None:
     if "pavucontrol" in client.get_wm_class():
         client.set_position_floating(2040, 47)
         client.set_size(500, 600)
+    if "nekoray" in client.get_wm_class():
+        client.togroup("scratchpad")
 
 
 @subscribe.startup_once
 def auto_lunch() -> None:
-    sb.call([home + "/.config/qtile/autostart.sh"])
+    sb.call([home / ".config/qtile/autostart.sh"])
 
 
 @subscribe.startup_complete

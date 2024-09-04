@@ -2,7 +2,7 @@ import re
 from collections.abc import Sequence
 from dataclasses import dataclass
 
-from libqtile.config import Group, Key, Match
+from libqtile.config import DropDown, Group, Key, Match, ScratchPad
 from libqtile.lazy import lazy
 
 from settings import mod
@@ -15,8 +15,10 @@ class ScreenSettings:
     group_count: int
 
 
-def extend_keys(groups: Sequence[Group], keys_src: Sequence[Key]) -> None:
+def extend_keys(groups: Sequence[Group], keys_src: list[Key]) -> None:
     for i in groups:
+        if not hasattr(i, "keycode"):
+            continue
         key = i.keycode
         keys_src.extend(
             [
@@ -106,4 +108,23 @@ def get_groups() -> Sequence[Group]:
     setattr(minecraft, "keycode", "m")
 
     res.extend([firefox_group, discord, chatterino, minecraft])
+    res.append(
+        ScratchPad(
+            "scratchpad",
+            [
+                DropDown(
+                    "nekoray",
+                    "nekoray",
+                    match=Match(wm_class="nekoray"),
+                    x=0.05,
+                    y=0.2,
+                    width=0.9,
+                    height=0.6,
+                    opacity=0.9,
+                    on_focus_lost_hide=True,
+                ),
+            ],
+        )
+    )
+    lazy.group["scratchpad"].spawn("nekoray")
     return res

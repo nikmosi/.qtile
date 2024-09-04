@@ -12,6 +12,7 @@ from settings import (
 from utils.screenshots import take_screenshot, take_screenshot_alternative
 
 keys = [
+    Key(["shift"], "F12", lazy.group["scratchpad"].dropdown_toggle("nekoray")),
     Key(["mod1"], "Shift_L", lazy.widget["keyboardlayout"].next_keyboard()),
     Key(["shift"], "Alt_L", lazy.widget["keyboardlayout"].next_keyboard()),
     # Key([], "ISO_Next_Group", lazy.widget["keyboardlayout"].next_keyboard()),
