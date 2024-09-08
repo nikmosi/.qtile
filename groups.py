@@ -103,7 +103,7 @@ def get_groups() -> Sequence[Group]:
         name="minecraft",
         label="",
         screen_affinity=0,
-        matches=[Match(title=re.compile("^Minecraft"))],
+        matches=[Match(title=re.compile("^Minecraft")), Match(wm_class="steam_proton")],
     )
     setattr(minecraft, "keycode", "m")
 
