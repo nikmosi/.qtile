@@ -29,7 +29,7 @@ class OpenWeatherMap(ThreadPoolText):
     ):
         super().__init__(text, **config)
         self.url = f"{api}/weather?appid={key}&id={city_id}&units={units}"
-        self.icon_provider = icon_provider if icon_provider else FontAwesome5Pro()
+        self.icon_provider = icon_provider if icon_provider else WeatherIcon()
 
     def get_icon(self, weather_icon) -> str:
         return self.icon_provider.get_icon(weather_icon)

@@ -23,5 +23,5 @@ class CDF(ThreadPoolText):
         ).split("\n")
         for i in filter(lambda a: "Used:" in a, out):
             size = float(i.split()[1]) / 1024 / 1024 / 1024
-            return self.format.format(f"{size:6.2f}")
+            return self.format.format(f"{size:.2f}")
         return self.text
