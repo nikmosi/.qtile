@@ -103,7 +103,13 @@ def get_groups() -> Sequence[Group]:
         name="minecraft",
         label="",
         screen_affinity=0,
-        matches=[Match(title=re.compile("^Minecraft")), Match(wm_class="steam_proton")],
+        matches=[
+            Match(title=re.compile("^Minecraft")),
+            Match(wm_class="steam_proton"),
+            Match(wm_class="epicgameslauncher.exe"),
+            Match(wm_class="rocketleague.exe"),
+            Match(wm_class="bakkesmod.exe"),
+        ],
     )
     setattr(minecraft, "keycode", "m")
 
@@ -121,7 +127,7 @@ def get_groups() -> Sequence[Group]:
                     width=0.9,
                     height=0.6,
                     opacity=0.9,
-                    on_focus_lost_hide=True,
+                    on_focus_lost_hide=False,
                 ),
             ],
         )

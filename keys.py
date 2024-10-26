@@ -15,6 +15,9 @@ keys = [
     Key(["shift"], "F12", lazy.group["scratchpad"].dropdown_toggle("nekoray")),
     Key(["mod1"], "Shift_L", lazy.widget["keyboardlayout"].next_keyboard()),
     Key(["shift"], "Alt_L", lazy.widget["keyboardlayout"].next_keyboard()),
+    Key([], "XF86AudioRaiseVolume", lazy.widget["pulse_volume"].increase_vol()),
+    Key([], "XF86AudioLowerVolume", lazy.widget["pulse_volume"].decrease_vol()),
+    Key([], "XF86AudioMute", lazy.widget["pulse_volume"].mute()),
     # Key([], "ISO_Next_Group", lazy.widget["keyboardlayout"].next_keyboard()),
     # Key([], "ISO_Next_Group_Lock", lazy.widget["keyboardlayout"].next_keyboard()),
     # A list of available commands that can be bound to keys can be found
