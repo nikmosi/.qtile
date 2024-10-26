@@ -1,5 +1,8 @@
+import subprocess as sb
+
 from libqtile.config import Key, KeyChord
 from libqtile.lazy import lazy
+from libqtile.utils import send_notification
 
 from settings import (
     clipboard_selector,
@@ -11,12 +14,47 @@ from settings import (
 )
 from utils.screenshots import take_screenshot, take_screenshot_alternative
 
+
+@lazy.function
+def change_volume(qtile, increase_vol: bool):
+    pulse = qtile.widgets_map.get("pulse_volume")
+    if pulse is None:
+        send_notification("err", "Pulse volume widget not found")
+        return
+
+    volume = pulse.volume
+    if increase_vol:
+        pulse.increase_vol()
+        volume += 2
+    else:
+        pulse.decrease_vol()
+        volume -= 2
+
+    icon = "audio-volume-high"
+    message = f"Volume: {volume}%"
+
+    sb.run(
+        [
+            "notify-send",
+            "-u",
+            "low",
+            "-h",
+            f"int:value:{volume}",
+            "-h",
+            "string:x-dunst-stack-tag:volume",
+            message,
+            "-i",
+            icon,
+        ]
+    )
+
+
 keys = [
     Key(["shift"], "F12", lazy.group["scratchpad"].dropdown_toggle("nekoray")),
     Key(["mod1"], "Shift_L", lazy.widget["keyboardlayout"].next_keyboard()),
     Key(["shift"], "Alt_L", lazy.widget["keyboardlayout"].next_keyboard()),
-    Key([], "XF86AudioRaiseVolume", lazy.widget["pulse_volume"].increase_vol()),
-    Key([], "XF86AudioLowerVolume", lazy.widget["pulse_volume"].decrease_vol()),
+    Key([], "XF86AudioRaiseVolume", change_volume(True)),
+    Key([], "XF86AudioLowerVolume", change_volume(False)),
     Key([], "XF86AudioMute", lazy.widget["pulse_volume"].mute()),
     # Key([], "ISO_Next_Group", lazy.widget["keyboardlayout"].next_keyboard()),
     # Key([], "ISO_Next_Group_Lock", lazy.widget["keyboardlayout"].next_keyboard()),
