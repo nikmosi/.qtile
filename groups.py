@@ -87,6 +87,7 @@ def get_groups() -> Sequence[Group]:
             Match(wm_class="vesktop"),
             Match(wm_class="ayugram-desktop"),
             Match(wm_class="anilibrix"),
+            Match(wm_class="telegram-desktop"),
         ],
     )
     setattr(discord, "keycode", "semicolon")

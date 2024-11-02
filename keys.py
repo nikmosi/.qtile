@@ -16,6 +16,16 @@ from utils.screenshots import take_screenshot, take_screenshot_alternative
 
 
 @lazy.function
+def prismatik_off_and_poweroff(_):
+    send_notification("off", "prismatik", id_=1)
+    sb.run(["prismatik", "--off"])
+    sb.run(["prismatik", "--off"])
+    sb.run(["sleep", "0.4"])
+    send_notification("off", "system", id_=2)
+    sb.run(["poweroff"])
+
+
+@lazy.function
 def change_volume(qtile, increase_vol: bool):
     pulse = qtile.widgets_map.get("pulse_volume")
     if pulse is None:
@@ -139,13 +149,7 @@ keys = [
         [mod],
         "x",
         [
-            Key(
-                [],
-                "s",
-                lazy.spawn("prismatik --off"),
-                lazy.spawn("prismatik --off"),
-                lazy.spawn("poweroff"),
-            ),
+            Key([], "s", prismatik_off_and_poweroff()),
             Key([], "r", lazy.spawn("reboot")),
         ],
         mode=True,
