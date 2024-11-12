@@ -1,9 +1,6 @@
 import re
-import subprocess as sb
 
-from libqtile import qtile
 from libqtile.config import Click, Drag, Match
-from libqtile.hook import subscribe
 from libqtile.layout import columns, floating
 from libqtile.layout import max as layoutMax
 from libqtile.layout import tile, tree
@@ -12,28 +9,7 @@ from libqtile.lazy import lazy
 from groups import extend_keys, get_groups
 from keys import keys
 from screens import get_screens
-from settings import Colors, block, home, mod
-
-
-@subscribe.client_new
-def new_clinet(client) -> None:
-    if "pavucontrol" in client.get_wm_class():
-        client.set_position_floating(2040, 47)
-        client.set_size(500, 600)
-    if "nekoray" in client.get_wm_class():
-        client.togroup("scratchpad")
-
-
-@subscribe.startup_once
-def auto_lunch() -> None:
-    sb.call([home / ".config/qtile/autostart.sh"])
-
-
-@subscribe.startup_complete
-def complete_hook() -> None:
-    qtile.groups_map["firefox"].toscreen(0)
-    # qtile.groups_map["chatterino"].toscreen(1)
-
+from settings import Colors, block, mod
 
 groups = get_groups()
 screens = get_screens()
