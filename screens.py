@@ -84,6 +84,7 @@ def get_screens() -> Sequence[Screen]:
                     ),
                     widget.Prompt(),
                     widget.WindowName(),
+                    widget.WindowTabs(),
                     widget.Chord(
                         chords_colors={
                             "Shutdown": (Colors.alert, Colors.foreground),
