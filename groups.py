@@ -108,7 +108,7 @@ def get_groups() -> Sequence[Group]:
                 DropDown(
                     "nekoray",
                     "nekoray",
-                    # match=Match(wm_class="nekoray"),
+                    match=Match(wm_class="nekoray"),
                     x=0.05,
                     y=0.2,
                     width=0.9,
@@ -119,5 +119,5 @@ def get_groups() -> Sequence[Group]:
             ],
         )
     )
-    # lazy.group["scratchpad"].spawn("nekoray")
+    lazy.group["scratchpad"].spawn("nekoray")
     return res

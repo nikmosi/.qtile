@@ -24,8 +24,8 @@ def new_clinet(client) -> None:
     if "pavucontrol" in client.get_wm_class():
         client.set_position_floating(2040, 47)
         client.set_size(500, 600)
-    # if "nekoray" in client.get_wm_class():
-    #     client.togroup("scratchpad")
+    if "nekoray" in client.get_wm_class():
+        client.togroup("scratchpad")
 
 
 @subscribe.startup_once
@@ -36,7 +36,6 @@ def auto_lunch() -> None:
 @subscribe.startup_complete
 def complete_hook() -> None:
     qtile.groups_map["firefox"].toscreen(0)
-    # qtile.groups_map["chatterino"].toscreen(1)
 
 
 layouts = [
@@ -87,7 +86,6 @@ floating_layout = floating.Floating(
         Match(wm_class="float_pass"),
         Match(wm_class="floating_wm_class"),
         Match(wm_class="ripdrag"),
-        # Match(wm_class="pavucontrol"),
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title=re.compile("^Welcome to .*")),
         Match(title="branchdialog"),  # gitk
