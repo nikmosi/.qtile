@@ -5,11 +5,14 @@ import requests
 from libqtile.widget.base import ThreadPoolText
 from loguru import logger
 
+from settings import font_awesome_bold
+
 
 class WakaTime(ThreadPoolText):
     def __init__(self, token: str, text: str = "", **config):
         super().__init__(text, **config)
         self.token = b64encode(token.encode("ascii")).decode("ascii")
+        self.icon = font_awesome_bold.format("")
 
     def poll(self) -> str:
         ans = requests.get(
@@ -18,7 +21,9 @@ class WakaTime(ThreadPoolText):
         )
         if ans.status_code != HTTPStatus.OK:
             logger.error(f"didn't get and from {self.url}")
-            return ""
+            return self.icon
         data = ans.json()
         wakatime_today: str = data["data"]["grand_total"]["text"]
-        return "" if wakatime_today.isspace() else f" {wakatime_today}"
+        if wakatime_today.isspace():
+            return self.icon
+        return f"{self.icon} {wakatime_today}"
