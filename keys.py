@@ -1,6 +1,9 @@
 import subprocess as sb
+from collections.abc import Sequence
 
+from libqtile.backend.base.window import Window
 from libqtile.config import Key, KeyChord
+from libqtile.core.manager import Qtile
 from libqtile.lazy import lazy
 from libqtile.utils import send_notification
 
@@ -12,6 +15,7 @@ from settings import (
     rofi_command,
     terminal,
 )
+from utils.cli import call_rofi_dmenu
 from utils.screenshots import take_screenshot, take_screenshot_alternative
 
 
@@ -59,6 +63,18 @@ def change_volume(qtile, increase_vol: bool):
     )
 
 
+@lazy.function
+def toggle_minimize_window(qtile: Qtile) -> None:
+    windows: Sequence[Window] = qtile.current_group.windows
+    names = [f"{i}: {w.name}" for i, w in enumerate(windows)]
+    selected_window = call_rofi_dmenu(names)
+    if not selected_window:
+        return
+    id = names.index(selected_window)
+    window = windows[id]
+    window.toggle_minimize()
+
+
 keys = [
     Key(["shift"], "F12", lazy.group["scratchpad"].dropdown_toggle("nekoray")),
     Key(["mod1"], "Shift_L", lazy.widget["keyboardlayout"].next_keyboard()),
@@ -97,7 +113,8 @@ keys = [
     ),
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    Key([mod, "shift"], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    Key([mod], "n", toggle_minimize_window, desc="toggle window minimize"),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
