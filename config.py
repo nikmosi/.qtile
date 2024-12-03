@@ -99,7 +99,7 @@ floating_layout = floating.Floating(
         Match(wm_class="pavucontrol"),
     ],
 )
-auto_fullscreen = False
+auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
 auto_minimize = True
