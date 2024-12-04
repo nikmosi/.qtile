@@ -18,7 +18,6 @@ from settings import (
     airq_api,
     airq_city,
     airq_token,
-    block,
     clock_formats,
     font_awesome_bold,
     openweather_api,
@@ -32,7 +31,7 @@ from utils.groups import with_screen_affinity
 
 pulse_volume = widget.PulseVolume(
     name="pulse_volume",
-    fmt=block.format(font_awesome_bold.format(" ") + "{}"),
+    fmt=font_awesome_bold.format(" ") + "{}",
     mouse_callbacks={
         "Button3": lazy.spawn("pavucontrol -t 3"),
     },
@@ -92,6 +91,13 @@ def get_screens() -> Sequence[Screen]:
                     cSysTray(icon_size=16, ignored_names=["Prismatik"]),
                     separator,
                     Wireguard(update_inteval=3600),
+                    separator,
+                    widget.CheckUpdates(
+                        display_format=font_awesome_bold.format("\uf2f9")
+                        + " {updates}",
+                        colour_have_updates=Colors.foreground,
+                        distro="Arch_yay",
+                    ),
                     separator,
                     WakaTime(wakatime_token, update_inteval=30),
                     separator,
