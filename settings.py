@@ -33,9 +33,7 @@ if os.path.exists(dotenv_path):
 
 wallpaper_path = path.join(home, "Pictures", "wallpaper")
 
-wallpaper_screen_1 = path.join(
-    wallpaper_path, "first"
-)
+wallpaper_screen_1 = path.join(wallpaper_path, "first")
 wallpaper_screen_2 = path.join(
     wallpaper_path,
     "anime-girl-demon-horn-with-glasses-8k-wallpaper-uhdpaper.com-612@0@j.jpg",
@@ -65,7 +63,7 @@ password_manager = (
 )
 
 rofi_theme = " -theme gruvbox-dark "
-rofi_command = path.join(home, ".config", "rofi", "launcher.sh")
+rofi_command = f"rofi -show drun {rofi_theme}"
 
 
 clipboard_selector = (
