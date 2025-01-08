@@ -4,12 +4,14 @@ from zoneinfo import ZoneInfo
 from dateutil.tz import gettz
 from libqtile import widget
 from libqtile.lazy import LazyCall, lazy
+from loguru import logger
 
 from utils.callbacks import combine
 
 
 class NextFormatsClock(widget.Clock):
     def __init__(self, formats: list, *args, **kwargs):
+        logger.debug(f"inited clock {formats=}")
         self.formats = cycle(formats)
         self.timezones = cycle([gettz(), ZoneInfo("Europe/Moscow")])
         self.timezone = next(self.timezones)

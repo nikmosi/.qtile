@@ -15,16 +15,10 @@ from custom_widgets.wakatime import WakaTime
 from custom_widgets.wireguard import Wireguard
 from settings import (
     Colors,
-    airq_api,
-    airq_city,
-    airq_token,
+    conf,
     clock_formats,
     font_awesome_bold,
-    openweather_api,
-    openweather_city,
-    openweather_key,
     separator,
-    wakatime_token,
     wallpaper_screen_1,
 )
 from utils.groups import with_screen_affinity
@@ -99,17 +93,15 @@ def get_screens() -> Sequence[Screen]:
                         distro="Arch_yay",
                     ),
                     separator,
-                    WakaTime(wakatime_token, update_inteval=30),
+                    WakaTime(conf.waka.token, update_inteval=30),
                     separator,
                     OpenWeatherMap(
-                        openweather_api,
-                        openweather_key,
-                        openweather_city,
+                        conf.weather,
                         update_inteval=300,
                     ),
                     separator,
                     InfoAirQualitiIndex(
-                        AqiApi(airq_token, airq_city, airq_api),
+                        AqiApi(conf.airq),
                         update_inteval=300,
                     ),
                     separator,

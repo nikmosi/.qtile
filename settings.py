@@ -1,10 +1,17 @@
+from functools import cached_property
 import os
 from os import path
 from pathlib import Path
 
 from dotenv import load_dotenv
 from libqtile import widget
-from loguru import logger
+from pydantic import BaseModel, ConfigDict, Field
+from httpx import AsyncClient
+
+
+dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
 
 
 class InfoAirQualityColors:
@@ -26,18 +33,69 @@ class Colors:
     disabled = "#707880"
 
 
+class NetConfig(BaseModel):
+    session: AsyncClient = Field(default_factory=AsyncClient)
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+
+class BaseColorsConfig(BaseModel):
+    main: Colors = Colors()
+    air_quality: InfoAirQualityColors = InfoAirQualityColors()
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+
+class FormatsConfig(BaseModel):
+    disabled_text: str = f"<span foreground='{Colors.disabled}'>{{text}}</span>"
+
+    @cached_property
+    def disabled_zero_pad(self) -> str:
+        return self.disabled_text.format(text="0")
+
+
+class ImgurConfig(BaseModel):
+    client_id: str = os.getenv("IMGUR_CLIENT_ID")
+    url: str = "https://api.imgur.com/3/image"
+
+
+class AirqConfig(BaseModel):
+    token: str = os.getenv("INFO_AIRQUALITYINDEX_TOKEN")
+    city: str = os.getenv("INFO_AIRQUALITYINDEX_CITY")
+    api: str = os.getenv("INFO_AIRQUALITYINDEX_API")
+
+
+class OpenWeatherConfig(BaseModel):
+    key: str = os.getenv("OPENWEATHERMAP_KEY")
+    city: str = os.getenv("OPENWEATHERMAP_CITY")
+    api: str = os.getenv("OPENWEATHERMA_API")
+
+
+class WakatimeConfig(BaseModel):
+    token: str = os.getenv("WAKATIME_TOKEN", "")
+
+
+class Config(BaseModel):
+    net: NetConfig = Field(default_factory=NetConfig)
+    home: Path = Field(default_factory=lambda: Path.home())
+    formats: FormatsConfig = Field(default_factory=FormatsConfig)
+    imgur: ImgurConfig = Field(default_factory=ImgurConfig)
+    airq: AirqConfig = Field(default_factory=AirqConfig)
+    weather: OpenWeatherConfig = Field(default_factory=OpenWeatherConfig)
+    waka: WakatimeConfig = Field(default_factory=WakatimeConfig)
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+
+conf = Config()
+
+
 home = Path.home()
-dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
-if os.path.exists(dotenv_path):
-    load_dotenv(dotenv_path)
 
 wallpaper_path = path.join(home, "Pictures", "wallpaper")
 
-wallpaper_screen_1 = path.join(wallpaper_path, "first")
-wallpaper_screen_2 = path.join(
-    wallpaper_path,
-    "anime-girl-demon-horn-with-glasses-8k-wallpaper-uhdpaper.com-612@0@j.jpg",
-)
+wallpaper_screen_1 = path.join(wallpaper_path, "1")
+wallpaper_screen_2 = path.join(wallpaper_path, "2")
 
 
 font_template = f"<span foreground='{Colors.primary}' \
@@ -83,30 +141,3 @@ separator = widget.TextBox(
 maim_command = "maim {args}"
 xclip_image = "xclip -selection clipboard -t image/png {path}"
 xclip_text = "echo -n '{text}' | xclip -sel clip"
-
-airq_token = os.getenv("INFO_AIRQUALITYINDEX_TOKEN")
-airq_city = os.getenv("INFO_AIRQUALITYINDEX_CITY")
-airq_api = os.getenv("INFO_AIRQUALITYINDEX_API")
-
-openweather_key = os.getenv("OPENWEATHERMAP_KEY")
-openweather_city = os.getenv("OPENWEATHERMAP_CITY")
-openweather_api = os.getenv("OPENWEATHERMA_API")
-client_id = os.getenv("IMGUR_CLIENT_ID")
-
-wakatime_token = os.getenv("WAKATIME_TOKEN", default="")
-if not wakatime_token:
-    err = "wakatime_token is none"
-    logger.error(err)
-    raise Exception(err)
-
-disabled_text = f"<span foreground='{Colors.disabled}'>{{text}}</span>"
-disabled_zero_pad = disabled_text.format(text="0")
-
-imgur_curl = f"""
-curl --location 'https://api.imgur.com/3/image' \
---header 'Authorization: Client-ID {client_id}' \
---form 'image=@"{{filepath}}"' \
---form 'type="image"' \
---form 'title="screenshot"' \
---form 'description="(:"'
-"""

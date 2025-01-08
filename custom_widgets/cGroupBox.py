@@ -14,7 +14,7 @@ class GroupBox(widget.GroupBox):
 
     @property
     def groups(self) -> Sequence[Group]:
-        su = super().groups
+        all_groups = super().groups
         if not self.group_filter:
-            return su
-        return [i for i in su if self.group_filter(i)]
+            return all_groups
+        return [i for i in all_groups if self.group_filter(i)]

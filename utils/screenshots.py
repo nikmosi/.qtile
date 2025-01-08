@@ -1,13 +1,22 @@
-import json
 import subprocess as sb
 from pathlib import Path
 from typing import Callable
 
 from libqtile.lazy import lazy
 from libqtile.utils import send_notification
+import httpx
 
-from settings import home, imgur_curl, maim_command, xclip_image, xclip_text
+from settings import home, maim_command, xclip_image, xclip_text
 from utils.cli import call_rofi_dmenu
+from loguru import logger
+from settings import conf
+
+alternative_screenshot_funcs = []
+
+
+def alternative_screenshot(func: Callable) -> Callable:
+    alternative_screenshot_funcs.append(func)
+    return func
 
 
 def get_path() -> Path:
@@ -16,43 +25,55 @@ def get_path() -> Path:
         shell=True,
         text=True,
     ).strip()
+    logger.info(f"Created {path=}.")
     return Path(path)
 
 
 def call_screenshot_command(args: str = "") -> Path | None:
     path = get_path()
     command = maim_command.format(args=f"{path} {args}")
+    logger.debug(f"calling main. {command}")
     try:
         sb.check_call(command, shell=True)
-    except sb.CalledProcessError:
-        send_notification("error", "can't take screen")
+    except sb.CalledProcessError as e:
+        msg = "can't take screen"
+        logger.warning(msg)
+        logger.error(e)
+        send_notification("error", msg)
     else:
         return path
 
 
 def upload(path: Path) -> str | None:
+    logger.debug(f"uploding file: {path=}")
+    headers = {"Authorization": f"Client-ID {conf.imgur.client_id}"}
+    data = {"type": "image", "title": "screenshot", "description": "(:"}
+    files = {"image": open(path, "rb")}
+
+    with httpx.Client() as client:
+        response = client.post(conf.imgur.url, headers=headers, data=data, files=files)
+
     try:
-        out = sb.check_output(
-            imgur_curl.format(filepath=path), text=True, shell=True
-        ).strip()
-        link = json.loads(out)["data"]["link"]
-    except sb.CalledProcessError:
-        send_notification("can't upload", "process error")
-    except KeyError:
-        send_notification("can't upload", "key error")
+        response.raise_for_status()
+    except httpx.HTTPStatusError as e:
+        msg = f"Upload failed: {response.status_code}, {response.text}"
+        logger.warning(msg)
+        logger.error(e)
+        raise e
     else:
+        link = response.json()["data"]["link"]
         return link
 
 
 def to_clip(path: Path | None) -> None:
+    logger.debug("Placing file to clipboard.")
     if not path:
         return
     sb.check_call(xclip_image.format(path=path), shell=True)
 
 
 def get_alternative_screenshot_funcs() -> dict[str, Callable]:
-    funcs = [take_full_screenshot, take_screen_and_upload, recongnize_qr]
-    return {i.__name__: i for i in funcs}
+    return {i.__name__: i for i in alternative_screenshot_funcs}
 
 
 @lazy.function
@@ -60,6 +81,7 @@ def take_screenshot_alternative(_) -> None:
     variants = get_alternative_screenshot_funcs()
     rofi_response = call_rofi_dmenu(variants.keys())
     if not rofi_response:
+        logger.warning(f"{rofi_response=} is None.")
         return
     variants[rofi_response]()
 
@@ -70,21 +92,30 @@ def take_screenshot(_) -> None:
     to_clip(path)
 
 
+@alternative_screenshot
 def recongnize_qr() -> None:
+    logger.debug("recongnizing qr")
     try:
         sb.check_call(
             "maim -qs | zbarimg -q --raw - | xclip -selection clipboard -f", shell=True
         )
-    except sb.CalledProcessError:
-        send_notification("error", "can't screenshot")
+    except sb.CalledProcessError as e:
+        msg = "can't screenshot"
+        logger.warning(msg)
+        logger.error(e)
+        send_notification("error", msg)
 
 
+@alternative_screenshot
 def take_full_screenshot():
+    logger.debug("taking full screenshot")
     path = call_screenshot_command()
     to_clip(path)
 
 
+@alternative_screenshot
 def take_screen_and_upload():
+    logger.debug("taking screenshot and upload")
     path = call_screenshot_command(" -s")
     if not path:
         return

@@ -1,10 +1,12 @@
+from __future__ import annotations
 from abc import ABC, abstractmethod
-from http import HTTPStatus
 from typing import override
 
-import requests
-from libqtile.widget.base import ThreadPoolText
+from httpx import HTTPStatusError
+
 from loguru import logger
+from settings import OpenWeatherConfig, conf
+from libqtile.widget.base import InLoopPollText
 
 
 class IconProvider(ABC):
@@ -16,29 +18,36 @@ class IconProvider(ABC):
         raise NotImplementedError
 
 
-class OpenWeatherMap(ThreadPoolText):
+class OpenWeatherMap(InLoopPollText):
     def __init__(
         self,
-        api,
-        key,
-        city_id,
+        weather_conf=OpenWeatherConfig(),
         icon_provider: IconProvider | None = None,
         units="metric",
         text="",
         **config,
     ):
         super().__init__(text, **config)
+        api = weather_conf.api
+        key = weather_conf.key
+        city_id = weather_conf.city
+        self.icon_format = "" """<span font_family="Weather Icons">{}</span>"""
         self.url = f"{api}/weather?appid={key}&id={city_id}&units={units}"
         self.icon_provider = icon_provider if icon_provider else WeatherIcon()
 
     def get_icon(self, weather_icon) -> str:
-        return self.icon_provider.get_icon(weather_icon)
+        icon = self.icon_provider.get_icon(weather_icon)
+        return self.icon_format.format(icon)
 
-    def poll(self) -> str:
-        ans = requests.get(self.url)
-        if ans.status_code != HTTPStatus.OK:
-            logger.error(f"didn't get and from {self.url}")
-            return ""
+    async def poll(self) -> str:  # pyright: ignore
+        logger.debug(f"get weather from {self.url}")
+        ans = await conf.net.session.get(self.url)
+        try:
+            ans.raise_for_status()
+        except HTTPStatusError as e:
+            logger.warning(f"didn't get and from {self.url}")
+            logger.error(e)
+            return "N/A"
         data = ans.json()
 
         weather_desc = data["weather"][0]["description"]
@@ -46,8 +55,7 @@ class OpenWeatherMap(ThreadPoolText):
         weather_icon = data["weather"][0]["icon"]
 
         symbol = "°"
-        icon_formatting = """<span font_family="Weather Icons">{}</span>"""
-        icon = icon_formatting.format(self.get_icon(weather_icon))
+        icon = self.get_icon(weather_icon)
         return f"{icon} {weather_desc} {weather_temp}{symbol}"
 
 

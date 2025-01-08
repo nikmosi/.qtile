@@ -1,10 +1,11 @@
 import re
 from abc import ABC, abstractmethod
-from http import HTTPStatus
 from typing import override
 
-import requests
-from libqtile.widget.base import ThreadPoolText
+from httpx import HTTPStatusError, Response
+
+from settings import AirqConfig, conf
+from libqtile.widget.base import InLoopPollText
 from loguru import logger
 from yarl import URL
 
@@ -16,21 +17,29 @@ from utils import formats
 class AqiGetter(ABC):
     """Aqi - air quality index"""
 
+    url: str = ""
+
+    async def request(self) -> Response:
+        ans = await conf.net.session.get(self.url)
+        try:
+            ans.raise_for_status()
+        except HTTPStatusError as e:
+            logger.warning("get HttpStatusError from {self.url=}.")
+            raise ApiReject from e
+        return ans
+
     @abstractmethod
-    def get(self) -> int:
+    async def get(self) -> int:
         raise NotImplementedError()
 
 
 class IqAirCurl(AqiGetter):
     def __init__(self, url: URL) -> None:
-        self._url = str(url)
+        self.url = str(url)
 
     @override
-    def get(self) -> int:
-        ans = requests.get(self._url)
-        if ans.status_code != HTTPStatus.OK:
-            logger.error(f"didn't get and from {self._url}")
-            raise ApiReject()
+    async def get(self) -> int:
+        ans = await self.request()
         pattern = r"<p class=\"aqi-value__value\">(\d+)\*</p>"
         if match := re.search(pattern, ans.text):
             aqi = match.group(1)
@@ -40,15 +49,15 @@ class IqAirCurl(AqiGetter):
 
 
 class AqiApi(AqiGetter):
-    def __init__(self, token, city, api):
+    def __init__(self, aqi_conf: AirqConfig = AirqConfig()):
+        api = aqi_conf.api
+        city = aqi_conf.city
+        token = aqi_conf.token
         self.url = f"{api}/{city}/?token={token}"
 
     @override
-    def get(self) -> int:
-        ans = requests.get(self.url)
-        if ans.status_code != HTTPStatus.OK:
-            logger.error(f"didn't get and from {self.url}")
-            raise ApiReject()
+    async def get(self) -> int:
+        ans = await self.request()
         data = ans.json()
         status = data["status"]
         if status != "ok":
@@ -58,34 +67,34 @@ class AqiApi(AqiGetter):
         return aqi
 
 
-class InfoAirQualitiIndex(ThreadPoolText):
+class InfoAirQualitiIndex(InLoopPollText):
     def __init__(
         self,
         aqi_getter: AqiGetter,
         text: str = "",
-        colors=InfoAirQualityColors,
+        colors=InfoAirQualityColors(),
         **config,
     ):
         super().__init__(text, **config)
         self.aqi_getter = aqi_getter
-        self._colors = InfoAirQualityColors
+        self.colors = colors
 
-    def poll(self) -> str:
+    async def poll(self) -> str:  # pyright: ignore
         res = """<span foreground="{color}" weight="bold">\uea35</span> {value}"""
         try:
-            aqi = self.aqi_getter.get()
+            aqi = await self.aqi_getter.get()
         except ApiReject:
-            return res.format(color=self._colors.red, value="=")
+            return res.format(color=self.colors.red, value="=")
         else:
             padded_aqi = formats.ljust_with_disabled_zero(2, str(aqi))
             if aqi < 50:
-                return res.format(color=self._colors.green, value=padded_aqi)
+                return res.format(color=self.colors.green, value=padded_aqi)
             elif aqi < 100:
-                return res.format(color=self._colors.yellow, value=padded_aqi)
+                return res.format(color=self.colors.yellow, value=padded_aqi)
             elif aqi < 150:
-                return res.format(color=self._colors.orange, value=padded_aqi)
+                return res.format(color=self.colors.orange, value=padded_aqi)
             elif aqi < 200:
-                return res.format(color=self._colors.pink, value=padded_aqi)
+                return res.format(color=self.colors.pink, value=padded_aqi)
             elif aqi < 300:
-                return res.format(color=self._colors.purple, value=padded_aqi)
-            return res.format(color=self._colors.red, value=padded_aqi)
+                return res.format(color=self.colors.purple, value=padded_aqi)
+            return res.format(color=self.colors.red, value=padded_aqi)

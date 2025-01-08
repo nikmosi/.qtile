@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 from libqtile import widget
 from libqtile.backend.x11 import window
 from libqtile.widget.systray import Icon
@@ -5,11 +6,9 @@ from xcffib.xproto import SetMode
 
 
 class cSysTray(widget.Systray):
-    def __init__(self, ignored_names: list | None = None, *args, **kwargs) -> None:
+    def __init__(self, ignored_names: Sequence = (), *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        if ignored_names is None:
-            ignored_names = []
-        self.ignored_names = ignored_names
+        self.ignored_names = list(ignored_names)
 
     def handle_ClientMessage(self, event):
         atoms = self.conn.atoms

@@ -3,7 +3,7 @@ from os import listdir
 from os.path import isfile, join
 
 from libqtile.lazy import LazyCall, lazy
-from libqtile.widget.base import InLoopPollText
+from libqtile.widget.base import ThreadPoolText
 from loguru import logger
 
 from custom_widgets.exceptions.wireguard import CantFindConfig
@@ -11,7 +11,7 @@ from settings import Colors as SettingColors
 from utils.cli import call_rofi_dmenu
 
 
-class Wireguard(InLoopPollText):
+class Wireguard(ThreadPoolText):
     class Color:
         green = "#55aa55"
 
@@ -25,8 +25,8 @@ class Wireguard(InLoopPollText):
         )
         self.connected_text = text.format(color=self.Color.green, text=default_text)
         self.mouse_callbacks = {"Button1": self.toggle_wrap()}
-        logger.info(str(self.get_routable_interface()))
-        super().__init__(default_text=default_text, **config)
+        logger.info(f"detected interfaces: {str(self.get_routable_interface())}")
+        super().__init__(text=default_text, default_text=default_text, **config)
 
     def get_routable_interface(self) -> list[str]:
         interfaces = sb.check_output(["networkctl"], text=True).splitlines()
@@ -47,7 +47,7 @@ class Wireguard(InLoopPollText):
 
         return wrapper
 
-    def poll(self) -> str:
+    def poll(self) -> str:  # pyright: ignore
         return (
             self.connected_text
             if self.get_routable_interface()

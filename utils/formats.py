@@ -1,7 +1,7 @@
-from settings import disabled_zero_pad
+from settings import conf
 
 
-def ljust_with_disabled_zero(size: int, s: str) -> str:
-    length = len(s)
-    pad_size = max(0, size - length)
-    return disabled_zero_pad * pad_size + s
+def ljust_with_disabled_zero(size: int, text: str) -> str:
+    length = len(text)
+    pad_size = size - length
+    return conf.formats.disabled_zero_pad * pad_size + text
