@@ -6,7 +6,6 @@ from libqtile.lazy import lazy
 
 from custom_widgets.cGroupBox import GroupBox
 from custom_widgets.cSysTray import cSysTray
-from custom_widgets.custom_df import CDF
 from custom_widgets.infoairqualityindex import AqiApi, InfoAirQualitiIndex
 from custom_widgets.kblEmoji import KblEmoji
 from custom_widgets.nextformatclock import NextFormatsClock
@@ -34,7 +33,7 @@ pulse_volume = widget.PulseVolume(
 memory = widget.Memory(
     format=font_awesome_bold.format("  ") + "{MemPercent:_>2.0f}%",
 )
-cdf = CDF(
+cdf = widget.DF(
     format=font_awesome_bold.format("  ") + "{}",
     update_inteval=60,
 )

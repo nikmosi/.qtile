@@ -2,23 +2,23 @@ from base64 import b64encode
 from typing import override
 
 from httpx import HTTPStatusError
-from libqtile.widget.base import InLoopPollText
+from libqtile.widget.base import ThreadPoolText
 from loguru import logger
 
 from settings import font_awesome_bold
 from settings import conf
 
 
-class WakaTime(InLoopPollText):
+class WakaTime(ThreadPoolText):
     def __init__(self, token: str, text: str = "", **config):
         super().__init__(text, **config)
         self.token = b64encode(token.encode("ascii")).decode("ascii")
         self.icon = font_awesome_bold.format("")
 
     @override
-    async def poll(self) -> str:  # pyright: ignore
+    def poll(self) -> str:  # pyright: ignore
         logger.debug("wakatime poll")
-        ans = await conf.net.session.get(
+        ans = conf.net.session.get(
             "https://wakatime.com/api/v1/users/current/status_bar/today",
             headers={"Authorization": f"Basic {self.token}"},
         )

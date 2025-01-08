@@ -6,12 +6,16 @@ from pathlib import Path
 from dotenv import load_dotenv
 from libqtile import widget
 from pydantic import BaseModel, ConfigDict, Field
-from httpx import AsyncClient
+from httpx import Client
+from loguru import logger
 
-
-dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
+base_path = os.path.dirname(__file__)
+dotenv_path = os.path.join(base_path, ".env")
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
+
+logger.add(Path.home() / ".local" / "share" / "qtile" / "loguru.log", level="DEBUG")
+logger.info("_____________ start _____________ ")
 
 
 class InfoAirQualityColors:
@@ -34,7 +38,7 @@ class Colors:
 
 
 class NetConfig(BaseModel):
-    session: AsyncClient = Field(default_factory=AsyncClient)
+    session: Client = Field(default_factory=Client)
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
@@ -68,7 +72,7 @@ class AirqConfig(BaseModel):
 class OpenWeatherConfig(BaseModel):
     key: str = os.getenv("OPENWEATHERMAP_KEY")
     city: str = os.getenv("OPENWEATHERMAP_CITY")
-    api: str = os.getenv("OPENWEATHERMA_API")
+    api: str = os.getenv("OPENWEATHERMAP_API")
 
 
 class WakatimeConfig(BaseModel):

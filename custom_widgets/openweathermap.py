@@ -6,7 +6,7 @@ from httpx import HTTPStatusError
 
 from loguru import logger
 from settings import OpenWeatherConfig, conf
-from libqtile.widget.base import InLoopPollText
+from libqtile.widget.base import ThreadPoolText
 
 
 class IconProvider(ABC):
@@ -18,7 +18,7 @@ class IconProvider(ABC):
         raise NotImplementedError
 
 
-class OpenWeatherMap(InLoopPollText):
+class OpenWeatherMap(ThreadPoolText):
     def __init__(
         self,
         weather_conf=OpenWeatherConfig(),
@@ -39,9 +39,9 @@ class OpenWeatherMap(InLoopPollText):
         icon = self.icon_provider.get_icon(weather_icon)
         return self.icon_format.format(icon)
 
-    async def poll(self) -> str:  # pyright: ignore
+    def poll(self) -> str:  # pyright: ignore
         logger.debug(f"get weather from {self.url}")
-        ans = await conf.net.session.get(self.url)
+        ans = conf.net.session.get(self.url)
         try:
             ans.raise_for_status()
         except HTTPStatusError as e:

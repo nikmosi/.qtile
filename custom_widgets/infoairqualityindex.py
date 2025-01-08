@@ -5,7 +5,7 @@ from typing import override
 from httpx import HTTPStatusError, Response
 
 from settings import AirqConfig, conf
-from libqtile.widget.base import InLoopPollText
+from libqtile.widget.base import ThreadPoolText
 from loguru import logger
 from yarl import URL
 
@@ -19,8 +19,8 @@ class AqiGetter(ABC):
 
     url: str = ""
 
-    async def request(self) -> Response:
-        ans = await conf.net.session.get(self.url)
+    def request(self) -> Response:
+        ans = conf.net.session.get(self.url)
         try:
             ans.raise_for_status()
         except HTTPStatusError as e:
@@ -29,7 +29,7 @@ class AqiGetter(ABC):
         return ans
 
     @abstractmethod
-    async def get(self) -> int:
+    def get(self) -> int:
         raise NotImplementedError()
 
 
@@ -38,8 +38,8 @@ class IqAirCurl(AqiGetter):
         self.url = str(url)
 
     @override
-    async def get(self) -> int:
-        ans = await self.request()
+    def get(self) -> int:
+        ans = self.request()
         pattern = r"<p class=\"aqi-value__value\">(\d+)\*</p>"
         if match := re.search(pattern, ans.text):
             aqi = match.group(1)
@@ -56,8 +56,8 @@ class AqiApi(AqiGetter):
         self.url = f"{api}/{city}/?token={token}"
 
     @override
-    async def get(self) -> int:
-        ans = await self.request()
+    def get(self) -> int:
+        ans = self.request()
         data = ans.json()
         status = data["status"]
         if status != "ok":
@@ -67,7 +67,7 @@ class AqiApi(AqiGetter):
         return aqi
 
 
-class InfoAirQualitiIndex(InLoopPollText):
+class InfoAirQualitiIndex(ThreadPoolText):
     def __init__(
         self,
         aqi_getter: AqiGetter,
@@ -79,10 +79,10 @@ class InfoAirQualitiIndex(InLoopPollText):
         self.aqi_getter = aqi_getter
         self.colors = colors
 
-    async def poll(self) -> str:  # pyright: ignore
+    def poll(self) -> str:  # pyright: ignore
         res = """<span foreground="{color}" weight="bold">\uea35</span> {value}"""
         try:
-            aqi = await self.aqi_getter.get()
+            aqi = self.aqi_getter.get()
         except ApiReject:
             return res.format(color=self.colors.red, value="=")
         else:
