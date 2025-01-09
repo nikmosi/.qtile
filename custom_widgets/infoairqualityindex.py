@@ -2,7 +2,7 @@ import re
 from abc import ABC, abstractmethod
 from typing import override
 
-from httpx import HTTPStatusError, Response
+from httpx import ConnectError, HTTPStatusError, Response, TimeoutException
 
 from settings import AirqConfig, conf
 from libqtile.widget.base import ThreadPoolText
@@ -19,13 +19,21 @@ class AqiGetter(ABC):
 
     url: str = ""
 
-    def request(self) -> Response:
-        ans = conf.net.session.get(self.url)
+    def request(self) -> Response | None:
+        ans = None
         try:
+            ans = conf.net.session.get(self.url)
             ans.raise_for_status()
         except HTTPStatusError as e:
             logger.warning("get HttpStatusError from {self.url=}.")
             raise ApiReject from e
+        except ConnectError as e:
+            logger.warning("Cant connect")
+            logger.error(e)
+        except TimeoutException as e:
+            logger.warning("Timeout")
+            logger.error(e)
+
         return ans
 
     @abstractmethod
@@ -40,6 +48,8 @@ class IqAirCurl(AqiGetter):
     @override
     def get(self) -> int:
         ans = self.request()
+        if not ans:
+            return -1
         pattern = r"<p class=\"aqi-value__value\">(\d+)\*</p>"
         if match := re.search(pattern, ans.text):
             aqi = match.group(1)
@@ -58,6 +68,8 @@ class AqiApi(AqiGetter):
     @override
     def get(self) -> int:
         ans = self.request()
+        if not ans:
+            return -1
         data = ans.json()
         status = data["status"]
         if status != "ok":

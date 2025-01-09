@@ -38,7 +38,7 @@ class Colors:
 
 
 class NetConfig(BaseModel):
-    session: Client = Field(default_factory=Client)
+    session: Client = Field(default_factory=lambda: Client(timeout=3))
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
 

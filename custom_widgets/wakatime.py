@@ -1,7 +1,7 @@
 from base64 import b64encode
 from typing import override
 
-from httpx import HTTPStatusError
+from httpx import ConnectError, HTTPStatusError, TimeoutException
 from libqtile.widget.base import ThreadPoolText
 from loguru import logger
 
@@ -18,16 +18,24 @@ class WakaTime(ThreadPoolText):
     @override
     def poll(self) -> str:  # pyright: ignore
         logger.debug("wakatime poll")
-        ans = conf.net.session.get(
-            "https://wakatime.com/api/v1/users/current/status_bar/today",
-            headers={"Authorization": f"Basic {self.token}"},
-        )
         try:
+            ans = conf.net.session.get(
+                "https://wakatime.com/api/v1/users/current/status_bar/today",
+                headers={"Authorization": f"Basic {self.token}"},
+            )
             ans.raise_for_status()
         except HTTPStatusError as e:
             logger.warning("HttpStatusError from wakatime")
             logger.error(e)
             return "N/A"
+        except ConnectError as e:
+            logger.warning("Cant connect")
+            logger.error(e)
+            return "N/C"
+        except TimeoutException as e:
+            logger.warning("Timeout")
+            logger.error(e)
+            return "T/O"
 
         data = ans.json()
         wakatime_today: str = data["data"]["grand_total"]["text"]

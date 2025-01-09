@@ -2,7 +2,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import override
 
-from httpx import HTTPStatusError
+from httpx import ConnectError, HTTPStatusError, TimeoutException
 
 from loguru import logger
 from settings import OpenWeatherConfig, conf
@@ -48,6 +48,15 @@ class OpenWeatherMap(ThreadPoolText):
             logger.warning(f"didn't get and from {self.url}")
             logger.error(e)
             return "N/A"
+        except ConnectError as e:
+            logger.warning("Cant connect")
+            logger.error(e)
+            return "N/C"
+        except TimeoutException as e:
+            logger.warning("Timeout")
+            logger.error(e)
+            return "T/O"
+
         data = ans.json()
 
         weather_desc = data["weather"][0]["description"]
