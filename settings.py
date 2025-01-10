@@ -119,10 +119,7 @@ password_selector = (
     "alacritty --title fzf-passwordstore --class float_pass -e" + pass_clip
 )
 
-pass_tessen = path.join(home, "Applications", "pass-tessen-helper.sh")
-password_manager = (
-    "alacritty --title fzf-passwordstore --class float_pass -e " + pass_tessen
-)
+password_manager = "rofi-pass"
 
 rofi_theme = "  "
 rofi_command = f"rofi -show drun {rofi_theme}"
