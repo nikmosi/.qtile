@@ -124,7 +124,7 @@ password_manager = (
     "alacritty --title fzf-passwordstore --class float_pass -e " + pass_tessen
 )
 
-rofi_theme = " -theme gruvbox-dark "
+rofi_theme = "  "
 rofi_command = f"rofi -show drun {rofi_theme}"
 
 
