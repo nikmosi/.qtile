@@ -13,6 +13,7 @@ from settings import (
     password_manager,
     password_selector,
     rofi_command,
+    rofi_power_menu,
     terminal,
 )
 from utils.cli import call_rofi_dmenu
@@ -27,6 +28,11 @@ def prismatik_off_and_poweroff(_):
     sb.run(["sleep", "0.4"])
     send_notification("off", "system", id_=2)
     sb.run(["poweroff"])
+
+
+@lazy.function
+def call_rofi_power_menu(_):
+    sb.run(rofi_power_menu, shell=True, check=True)
 
 
 @lazy.function
@@ -148,14 +154,10 @@ keys = [
         take_screenshot_alternative,
         desc="take alternative screenshot",
     ),
-    KeyChord(
+    Key(
         [mod],
         "x",
-        [
-            Key([], "s", prismatik_off_and_poweroff()),
-            Key([], "r", lazy.spawn("reboot")),
-        ],
-        mode=True,
-        name="Shutdown",
+        call_rofi_power_menu,
+        desc="call rofi power menu",
     ),
 ]

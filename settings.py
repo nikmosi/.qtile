@@ -123,6 +123,7 @@ password_manager = "rofi-pass"
 
 rofi_theme = "  "
 rofi_command = f"rofi -show drun {rofi_theme}"
+rofi_power_menu = """rofi -show p -modi p:'rofi-power-menu --symbols-font "Symbols Nerd Font Mono"' -font "JetBrains Mono NF 16" -theme-str 'window {width: 8em;} listview {lines: 6;}'"""
 
 
 clipboard_selector = (
