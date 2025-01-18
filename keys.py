@@ -82,7 +82,6 @@ def toggle_minimize_window(qtile: Qtile) -> None:
 
 
 keys = [
-    Key(["shift"], "F12", lazy.group["scratchpad"].dropdown_toggle("nekoray")),
     Key(["mod1"], "Shift_L", lazy.widget["keyboardlayout"].next_keyboard()),
     Key(["shift"], "Alt_L", lazy.widget["keyboardlayout"].next_keyboard()),
     Key([], "XF86AudioRaiseVolume", change_volume(True)),

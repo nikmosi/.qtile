@@ -68,12 +68,13 @@ def get_groups() -> Sequence[Group]:
         label="の",
         screen_affinity=1,
         matches=[
+            Match(wm_class="anilibrix"),
             Match(wm_class="discord"),
             Match(wm_class="legcord"),
-            Match(wm_class="vesktop"),
+            Match(wm_class="nekoray"),
             Match(wm_class="ayugram-desktop"),
-            Match(wm_class="anilibrix"),
             Match(wm_class="telegram-desktop"),
+            Match(wm_class="vesktop"),
         ],
     )
     setattr(discord, "keycode", "semicolon")
@@ -101,23 +102,4 @@ def get_groups() -> Sequence[Group]:
     setattr(minecraft, "keycode", "m")
 
     res.extend([firefox_group, discord, chatterino, minecraft])
-    res.append(
-        ScratchPad(
-            "scratchpad",
-            [
-                DropDown(
-                    "nekoray",
-                    "nekoray",
-                    match=Match(wm_class="nekoray"),
-                    x=0.05,
-                    y=0.2,
-                    width=0.9,
-                    height=0.6,
-                    opacity=0.9,
-                    on_focus_lost_hide=False,
-                ),
-            ],
-        )
-    )
-    lazy.group["scratchpad"].spawn("nekoray")
     return res
