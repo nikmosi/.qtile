@@ -126,10 +126,7 @@ rofi_command = f"rofi -show drun {rofi_theme}"
 rofi_power_menu = """rofi -show p -modi p:'rofi-power-menu --symbols-font "Symbols Nerd Font Mono"' -font "JetBrains Mono NF 16" -theme-str 'window {width: 8em;} listview {lines: 6;}'"""
 
 
-clipboard_selector = (
-    "rofi -modi \"clipboard:greenclip print\" -show clipboard -run-command '{cmd}' "
-    + rofi_theme
-)
+clipboard_selector = "env CM_LAUNCHER=rofi clipmenu -l rofi"
 
 clock_formats = [
     font_awesome_bold.format("  ") + "%I:%M %p",

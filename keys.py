@@ -1,4 +1,5 @@
 import subprocess as sb
+from loguru import logger
 from collections.abc import Sequence
 
 from libqtile.backend.base.window import Window
@@ -33,6 +34,14 @@ def prismatik_off_and_poweroff(_):
 @lazy.function
 def call_rofi_power_menu(_):
     sb.run(rofi_power_menu, shell=True, check=True)
+
+
+@lazy.function
+def run_command(_, command: str = "ls"):
+    try:
+        sb.run(command, shell=True, check=True)
+    except Exception as e:
+        logger.error(e)
 
 
 @lazy.function
@@ -140,7 +149,7 @@ keys = [
     Key(
         [mod, "shift"], "p", lazy.spawn(password_manager), desc="Spawn password manager"
     ),
-    Key([mod], "c", lazy.spawn(clipboard_selector), desc="Spawn clipboard selector"),
+    Key([mod], "c", run_command(clipboard_selector), desc="Spawn clipboard selector"),
     Key(
         [],
         "Print",
