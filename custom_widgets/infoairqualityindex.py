@@ -92,7 +92,7 @@ class InfoAirQualitiIndex(ThreadPoolText):
         self.colors = colors
 
     def poll(self) -> str:  # pyright: ignore
-        res = """<span foreground="{color}" weight="bold">\uea35</span> {value}"""
+        res = """<span foreground="{color}" weight="bold" font="Material Icons">\uea35</span> {value}"""
         try:
             aqi = self.aqi_getter.get()
         except ApiReject:
