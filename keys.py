@@ -144,7 +144,7 @@ keys = [
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
-    Key([mod], "d", lazy.spawn(rofi_command), desc="Spawn rofi"),
+    Key([mod], "d", run_command(rofi_command), desc="Spawn rofi"),
     Key([mod], "p", lazy.spawn(password_selector), desc="Spawn password selector"),
     Key(
         [mod, "shift"], "p", lazy.spawn(password_manager), desc="Spawn password manager"
