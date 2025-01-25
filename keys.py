@@ -1,12 +1,12 @@
 import subprocess as sb
-from loguru import logger
 from collections.abc import Sequence
 
 from libqtile.backend.base.window import Window
-from libqtile.config import Key, KeyChord
+from libqtile.config import Key
 from libqtile.core.manager import Qtile
 from libqtile.lazy import lazy
 from libqtile.utils import send_notification
+from loguru import logger
 
 from settings import (
     clipboard_selector,

@@ -1,13 +1,13 @@
-from functools import cached_property
 import os
+from functools import cached_property
 from os import path
 from pathlib import Path
 
 from dotenv import load_dotenv
-from libqtile import widget
-from pydantic import BaseModel, ConfigDict, Field
 from httpx import Client
+from libqtile import widget
 from loguru import logger
+from pydantic import BaseModel, ConfigDict, Field
 
 base_path = os.path.dirname(__file__)
 dotenv_path = os.path.join(base_path, ".env")
@@ -123,7 +123,10 @@ password_manager = "rofi-pass"
 
 rofi_theme = "  "
 rofi_command = f"rofi -show drun {rofi_theme}"
-rofi_power_menu = """rofi -show p -modi p:'rofi-power-menu --symbols-font "Symbols Nerd Font Mono"' -font "JetBrains Mono NF 16" -theme-str 'window {width: 8em;} listview {lines: 6;}'"""
+rofi_power_menu = """rofi -show p \
+-modi p:'rofi-power-menu --symbols-font "Symbols Nerd Font Mono"' \
+-font "JetBrains Mono NF 16" \
+-theme-str 'window {width: 8em;} listview {lines: 6;}'"""
 
 
 clipboard_selector = "env CM_LAUNCHER=rofi clipmenu -l rofi"

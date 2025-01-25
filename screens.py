@@ -14,8 +14,8 @@ from custom_widgets.wakatime import WakaTime
 from custom_widgets.wireguard import Wireguard
 from settings import (
     Colors,
-    conf,
     clock_formats,
+    conf,
     font_awesome_bold,
     separator,
     wallpaper_screen_1,

@@ -2,7 +2,7 @@ import re
 from collections.abc import Sequence
 from dataclasses import dataclass
 
-from libqtile.config import DropDown, Group, Key, Match, ScratchPad
+from libqtile.config import Group, Key, Match
 from libqtile.lazy import lazy
 
 from settings import mod

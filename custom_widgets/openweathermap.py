@@ -1,12 +1,13 @@
 from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from typing import override
 
 from httpx import ConnectError, HTTPStatusError, TimeoutException
-
-from loguru import logger
-from settings import OpenWeatherConfig, conf
 from libqtile.widget.base import ThreadPoolText
+from loguru import logger
+
+from settings import OpenWeatherConfig, conf
 
 
 class IconProvider(ABC):

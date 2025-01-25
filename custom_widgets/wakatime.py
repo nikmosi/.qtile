@@ -5,8 +5,7 @@ from httpx import ConnectError, HTTPStatusError, TimeoutException
 from libqtile.widget.base import ThreadPoolText
 from loguru import logger
 
-from settings import font_awesome_bold
-from settings import conf
+from settings import conf, font_awesome_bold
 
 
 class WakaTime(ThreadPoolText):

@@ -4,8 +4,7 @@ import subprocess as sb
 from libqtile import qtile
 from libqtile.config import Click, Drag, Match
 from libqtile.hook import subscribe
-from libqtile.layout import columns, floating
-from libqtile.layout import MonadTall
+from libqtile.layout import MonadTall, floating
 from libqtile.lazy import lazy
 
 from groups import extend_keys, get_groups

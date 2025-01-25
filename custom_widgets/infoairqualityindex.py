@@ -3,14 +3,12 @@ from abc import ABC, abstractmethod
 from typing import override
 
 from httpx import ConnectError, HTTPStatusError, Response, TimeoutException
-
-from settings import AirqConfig, conf
 from libqtile.widget.base import ThreadPoolText
 from loguru import logger
 from yarl import URL
 
 from custom_widgets.exceptions.infoairqualityindex import ApiReject
-from settings import InfoAirQualityColors
+from settings import AirqConfig, InfoAirQualityColors, conf
 from utils import formats
 
 
@@ -92,7 +90,9 @@ class InfoAirQualitiIndex(ThreadPoolText):
         self.colors = colors
 
     def poll(self) -> str:  # pyright: ignore
-        res = """<span foreground="{color}" weight="bold" font="Material Icons">\uea35</span> {value}"""
+        attrs = """foreground="{color}" weight="bold" font="Material Icons\""""
+        res = f"""<span {attrs}>\uea35</span> {{value}}"""
+
         try:
             aqi = self.aqi_getter.get()
         except ApiReject:

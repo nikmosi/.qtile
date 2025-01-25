@@ -1,4 +1,5 @@
 from collections.abc import Sequence
+
 from libqtile import widget
 from libqtile.backend.x11 import window
 from libqtile.widget.systray import Icon

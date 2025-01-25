@@ -2,14 +2,13 @@ import subprocess as sb
 from pathlib import Path
 from typing import Callable
 
+import httpx
 from libqtile.lazy import lazy
 from libqtile.utils import send_notification
-import httpx
-
-from settings import home, maim_command, xclip_image, xclip_text
-from utils.cli import call_rofi_dmenu
 from loguru import logger
-from settings import conf
+
+from settings import conf, home, maim_command, xclip_image, xclip_text
+from utils.cli import call_rofi_dmenu
 
 alternative_screenshot_funcs = []
 
