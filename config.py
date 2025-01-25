@@ -5,8 +5,7 @@ from libqtile import qtile
 from libqtile.config import Click, Drag, Match
 from libqtile.hook import subscribe
 from libqtile.layout import columns, floating
-from libqtile.layout import max as layoutMax
-from libqtile.layout import tile, tree
+from libqtile.layout import MonadTall
 from libqtile.lazy import lazy
 
 from groups import extend_keys, get_groups
@@ -37,10 +36,13 @@ def complete_hook() -> None:
 
 
 layouts = [
-    columns.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
-    layoutMax.Max(),
-    tile.Tile(border_focus="#881111", border_normal="#220000", border_width=4),
-    tree.TreeTab(),
+    MonadTall(
+        border_normal=("#fab387"),
+        border_focus=("#f38ba8"),
+        border_width=1,
+        ratio=0.70,
+        single_border_width=1,
+    ),
 ]
 
 widget_defaults = dict(
