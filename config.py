@@ -36,11 +36,11 @@ def complete_hook() -> None:
 
 layouts = [
     MonadTall(
-        border_normal=("#fab387"),
-        border_focus=("#f38ba8"),
-        border_width=1,
+        border_normal="#1f2335",
+        border_focus="#5a77b5",
+        border_width=3,
         ratio=0.70,
-        single_border_width=1,
+        single_border_width=0,
     ),
 ]
 
