@@ -20,7 +20,7 @@ def alternative_screenshot(func: Callable) -> Callable:
 
 def get_path() -> Path:
     path = sb.check_output(
-        f"echo {home}/Pictures/Screenshots/$(date +%F_%T_)$RANDOM.png",
+        f"echo {home}/Pictures/screenshots/$(date +%F_%T_)$RANDOM.png",
         shell=True,
         text=True,
     ).strip()
