@@ -13,9 +13,6 @@
     in
     {
 
-      devShells.${system}.default = pkgs.mkShell {
-        packages = [ ];
-      };
-
+      devShells.${system}.default = import ./shell.nix { inherit pkgs; };
     };
 }
