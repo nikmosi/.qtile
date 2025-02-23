@@ -1,6 +1,7 @@
 import re
 from collections.abc import Sequence
 from dataclasses import dataclass
+from operator import attrgetter
 
 from libqtile.config import Group, Key, Match
 from libqtile.lazy import lazy
@@ -17,10 +18,8 @@ class ScreenSettings:
 
 
 def extend_keys(groups: Sequence[Group], keys_src: list[Key]) -> None:
-    for i in groups:
-        if not hasattr(i, "keycode"):
-            continue
-        key = i.keycode
+    for i in filter(attrgetter("keycode"), groups):
+        key = getattr("keycode", i)
         keys_src.extend(
             [
                 Key(

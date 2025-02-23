@@ -2,6 +2,7 @@ import re
 import subprocess as sb
 
 from libqtile import qtile
+from libqtile.backend.base.window import Window
 from libqtile.config import Click, Drag, Match
 from libqtile.hook import subscribe
 from libqtile.layout import MonadTall, floating
@@ -18,10 +19,15 @@ extend_keys(groups, keys)
 
 
 @subscribe.client_new
-def new_clinet(client) -> None:
-    if "pavucontrol" in client.get_wm_class():
+def new_clinet(client: Window) -> None:
+    classes = client.get_wm_class()
+    if not classes:
+        return
+    if "pavucontrol" in classes:
         client.set_position_floating(2040, 47)
-        client.set_size(500, 600)
+        client.set_size_floating(500, 600)
+    if "nekoray" in classes:
+        client.toggle_minimize()
 
 
 @subscribe.startup_once
