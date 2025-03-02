@@ -14,6 +14,7 @@
       ];
 
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+
     in
     {
       checks = forAllSystems (system: {
@@ -33,14 +34,29 @@
         };
       });
 
-      devShells = forAllSystems (system: {
-        default = nixpkgs.legacyPackages.${system}.mkShell {
-          buildInputs = self.checks.${system}.pre-commit-check.enabledPackages;
-          shellHook = ''
-            ${self.checks.${system}.pre-commit-check.shellHook}
-            exec fish
-          '';
-        };
-      });
+      devShells = forAllSystems (
+        system:
+        let
+          pkgs = import nixpkgs {
+            system = system;
+          };
+        in
+        {
+          default = nixpkgs.legacyPackages.${system}.mkShell {
+            packages =
+              with pkgs;
+              with python312Packages;
+              [ qtile ]
+              ++ import ./qtile-deps.nix {
+                inherit pkgs;
+              };
+            buildInputs = self.checks.${system}.pre-commit-check.enabledPackages;
+            shellHook = ''
+              ${self.checks.${system}.pre-commit-check.shellHook}
+              exec fish
+            '';
+          };
+        }
+      );
     };
 }
