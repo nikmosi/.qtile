@@ -19,14 +19,13 @@ class ScreenSettings:
 
 def extend_keys(groups: Sequence[Group], keys_src: list[Key]) -> None:
     for i in filter(attrgetter("keycode"), groups):
-        key = getattr("keycode", i)
+        key = getattr(i, "keycode")
         keys_src.extend(
             [
                 Key(
                     [mod],
                     key,
-                    lazy.group[i.name].toscreen(),
-                    # lazy.group[i.name].toscreen(i.screen_affinity),
+                    lazy.group[i.name].toscreen(i.screen_affinity),
                     desc="Switch to group {}".format(i.name),
                 ),
                 Key(
@@ -42,8 +41,8 @@ def extend_keys(groups: Sequence[Group], keys_src: list[Key]) -> None:
 def get_groups() -> Sequence[Group]:
     res = []
     for screen in [
-        ScreenSettings(index=0, key_prefix="{}", group_count=6),
-        ScreenSettings(index=1, key_prefix="F{}", group_count=4),
+        ScreenSettings(index=0, key_prefix="{}", group_count=9),
+        ScreenSettings(index=1, key_prefix="F{}", group_count=9),
     ]:
         for i in range(1, screen.group_count + 1):
             group = Group(

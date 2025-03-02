@@ -19,6 +19,7 @@ from settings import (
     font_awesome_bold,
     separator,
     wallpaper_screen_1,
+    wallpaper_screen_2,
 )
 from utils.groups import with_screen_affinity
 
@@ -51,19 +52,6 @@ def get_screens() -> Sequence[Screen]:
                     GroupBox(
                         font="FreeMono, Noto Sans CJK JP",
                         group_filter=with_screen_affinity(0),
-                        hide_unused=False,
-                        highlight_method="line",
-                        inactive=Colors.disabled,
-                        this_current_screen_border=Colors.primary,
-                        highlight_color=Colors.background_alt,
-                        foreground=Colors.primary,
-                    ),
-                    widget.TextBox(
-                        "┇", foreground=Colors.disabled, background=Colors.background
-                    ),
-                    GroupBox(
-                        font="FreeMono, Noto Sans CJK JP",
-                        group_filter=with_screen_affinity(1),
                         hide_unused=False,
                         highlight_method="line",
                         inactive=Colors.disabled,
@@ -116,6 +104,35 @@ def get_screens() -> Sequence[Screen]:
                         name="keyboardlayout",
                         configured_keyboards=["us", "ru,us"],
                     ),
+                    separator,
+                ],
+                36,
+                border_width=[2, 0, 2, 0],
+                background=Colors.background,
+            ),
+        ),
+        Screen(
+            wallpaper=wallpaper_screen_2,
+            wallpaper_mode="fill",
+            top=bar.Bar(
+                [
+                    layout_icon,
+                    GroupBox(
+                        font="FreeMono, Noto Sans CJK JP",
+                        group_filter=with_screen_affinity(1),
+                        highlight_method="line",
+                        hide_unsed=False,
+                        inactive=Colors.disabled,
+                        this_current_screen_border=Colors.primary,
+                        highlight_color=Colors.background_alt,
+                        foreground=Colors.primary,
+                    ),
+                    separator,
+                    widget.Prompt(),
+                    widget.Spacer(),
+                    separator,
+                    NextFormatsClock(formats=clock_formats),
+                    separator,
                     separator,
                 ],
                 32,
