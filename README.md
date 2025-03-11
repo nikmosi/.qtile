@@ -1,2 +1,3 @@
 # TODO
-- [] handle httpcore.ConnectError (When network is unreacheble)
+- [ ] handle httpcore.ConnectError (When network is unreacheble)
+- [ ] improve style
