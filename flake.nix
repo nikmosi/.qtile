@@ -1,24 +1,23 @@
 {
   description = "An example project.";
 
-  inputs.pre-commit-hooks.url = "github:cachix/git-hooks.nix";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    pre-commit-hooks.url = "github:cachix/git-hooks.nix";
+    flake-utils.url = "github:numtide/flake-utils";
+  };
 
   outputs =
-    { self, nixpkgs, ... }@inputs:
-    let
-      supportedSystems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
-      ];
-
-      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-
-    in
     {
-      checks = forAllSystems (system: {
-        pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
+      self,
+      nixpkgs,
+      pre-commit-hooks,
+      flake-utils,
+      ...
+    }:
+    flake-utils.lib.eachDefaultSystem (system: {
+      checks = {
+        pre-commit-check = pre-commit-hooks.lib.${system}.run {
           src = ./.;
           hooks = {
             isort.enable = true;
@@ -35,31 +34,26 @@
             };
           };
         };
-      });
+      };
 
-      devShells = forAllSystems (
-        system:
+      devShells =
         let
-          pkgs = import nixpkgs {
-            system = system;
-          };
+          pkgs = import nixpkgs { inherit system; };
+          qtileDeps = import ./qtile-deps.nix { inherit pkgs; };
         in
         {
-          default = nixpkgs.legacyPackages.${system}.mkShell {
-            packages =
-              with pkgs;
-              with python312Packages;
-              [ qtile ]
-              ++ import ./qtile-deps.nix {
-                inherit pkgs;
-              };
+          default = pkgs.mkShell {
+            packages = [
+              pkgs.python312Packages.qtile
+            ] ++ qtileDeps;
+
             buildInputs = self.checks.${system}.pre-commit-check.enabledPackages;
+
             shellHook = ''
               ${self.checks.${system}.pre-commit-check.shellHook}
               exec fish
             '';
           };
-        }
-      );
-    };
+        };
+    });
 }
