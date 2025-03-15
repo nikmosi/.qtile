@@ -53,6 +53,13 @@ def get_groups() -> Sequence[Group]:
             res.append(group)
             setattr(group, "keycode", screen.key_prefix.format(i))
 
+    easy_effects = Group(
+        name="easyeffects",
+        label="\uf130",
+        screen_affinity=1,
+        matches=[Match(wm_class="easyeffects")],
+    )
+    setattr(easy_effects, "keycode", "e")
     firefox_group = Group(
         name="firefox",
         label="",
@@ -99,5 +106,5 @@ def get_groups() -> Sequence[Group]:
     )
     setattr(minecraft, "keycode", "m")
 
-    res.extend([firefox_group, discord, chatterino, minecraft])
+    res.extend([firefox_group, discord, chatterino, minecraft, easy_effects])
     return res
