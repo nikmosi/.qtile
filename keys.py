@@ -68,6 +68,8 @@ def change_volume(qtile: Qtile, increase_vol: bool):
     sb.run(
         [
             "notify-send",
+            "-t",
+            "1000",
             "-u",
             "low",
             "-h",
