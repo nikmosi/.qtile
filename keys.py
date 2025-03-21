@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 import subprocess as sb
 from collections.abc import Sequence
+from typing import Any
 
 from libqtile.backend.base.window import Window
 from libqtile.config import Key
@@ -45,8 +48,8 @@ def run_command(_, command: str = "ls"):
 
 
 @lazy.function
-def change_volume(qtile, increase_vol: bool):
-    pulse = qtile.widgets_map.get("pulse_volume")
+def change_volume(qtile: Qtile, increase_vol: bool):
+    pulse: Any = qtile.widgets_map.get("pulse_volume")
     if pulse is None:
         send_notification("err", "Pulse volume widget not found")
         return
