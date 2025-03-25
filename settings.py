@@ -112,7 +112,7 @@ font_awesome_brands_bold = font_template.format(
 )
 
 mod = "mod4"
-terminal = "alacritty"
+terminal = "kitty"
 
 pass_clip = path.join(home, "Applications", "pass-clip-helper.sh")
 password_selector = (
