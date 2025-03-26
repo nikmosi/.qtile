@@ -43,6 +43,7 @@
         in
         {
           default = pkgs.mkShell {
+            name = "qtile";
             packages = [
               pkgs.python312Packages.qtile
             ] ++ qtileDeps;
