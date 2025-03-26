@@ -28,13 +28,13 @@ class InfoAirQualityColors:
 
 
 class Colors:
-    background = "#282A2E"
-    background_alt = "#373B41"
-    foreground = "#C5C8C6"
-    primary = "#F0C674"
-    secondary = "#8ABEB7"
-    alert = "#A54242"
-    disabled = "#707880"
+    background = "#1a1b26"
+    background_alt = "#16161e"
+    foreground = "#c0caf5"
+    primary = "#7aa2f7"
+    secondary = "#bb9af7"
+    alert = "#f7768e"
+    disabled = "#565f89"
 
 
 class NetConfig(BaseModel):
