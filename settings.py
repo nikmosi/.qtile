@@ -29,12 +29,12 @@ class InfoAirQualityColors:
 
 class Colors:
     background = "#1a1b26"
-    background_alt = "#16161e"
+    background_alt = "#373B41"
     foreground = "#c0caf5"
     primary = "#7aa2f7"
-    secondary = "#bb9af7"
+    secondary = "#8ABEB7"
     alert = "#f7768e"
-    disabled = "#565f89"
+    disabled = "#707880"
 
 
 class NetConfig(BaseModel):
