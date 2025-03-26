@@ -36,7 +36,7 @@ memory = widget.Memory(
     format=font_awesome_bold.format("  ") + "{MemPercent:_>2.0f}%",
 )
 cdf = CDF(
-    format=font_awesome_bold.format("  ") + "{}",
+    format=font_awesome_bold.format("  ") + "{} Gb",
     update_inteval=60,
 )
 layout_icon = widget.CurrentLayoutIcon(scale=0.6, padding=10)
