@@ -52,7 +52,7 @@
 
             shellHook = ''
               ${self.checks.${system}.pre-commit-check.shellHook}
-              exec fish
+              exec nu
             '';
           };
         };
