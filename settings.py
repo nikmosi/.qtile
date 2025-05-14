@@ -59,8 +59,7 @@ class FormatsConfig(BaseModel):
 
 
 class ImgurConfig(BaseModel):
-    client_id: str = os.getenv("IMGUR_CLIENT_ID")
-    url: str = "https://api.imgur.com/3/image"
+    url: str = "https://i.nuuls.com/upload"
 
 
 class AirqConfig(BaseModel):
