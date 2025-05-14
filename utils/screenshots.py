@@ -45,12 +45,10 @@ def call_screenshot_command(args: str = "") -> Path | None:
 
 def upload(path: Path) -> str | None:
     logger.debug(f"uploding file: {path=}")
-    headers = {"Authorization": f"Client-ID {conf.imgur.client_id}"}
-    data = {"type": "image", "title": "screenshot", "description": "(:"}
-    files = {"image": open(path, "rb")}
+    files = {"file": (path.name, open(path, "rb"), "image/png")}
 
-    with httpx.Client() as client:
-        response = client.post(conf.imgur.url, headers=headers, data=data, files=files)
+    with httpx.Client(timeout=httpx.Timeout(5)) as client:
+        response = client.post(conf.imgur.url, files=files)
 
     try:
         response.raise_for_status()
@@ -60,7 +58,7 @@ def upload(path: Path) -> str | None:
         logger.error(e)
         raise e
     else:
-        link = response.json()["data"]["link"]
+        link = response.text
         return link
 
 
