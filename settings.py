@@ -104,10 +104,10 @@ wallpaper_screen_2 = path.join(wallpaper_path, "2")
 font_template = f"<span foreground='{Colors.primary}' \
         font_family='{{font_family}}' weight='{{weight}}'>{{text}}</span>"
 font_awesome_bold = font_template.format(
-    font_family="FontAwesome6Pro", weight="bold", text="{}"
+    font_family="Font Awesome 6 Pro", weight="bold", text="{}"
 )
 font_awesome_brands_bold = font_template.format(
-    font_family="FontAwesome6Brands", weight="bold", text="{}"
+    font_family="FontAwesome 6 Brands", weight="bold", text="{}"
 )
 
 mod = "mod4"
