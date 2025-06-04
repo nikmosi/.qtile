@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 chatterino &
-hyperhdr &
+hyperhdr --desktop &
 ayugram-desktop &
 nekoray &
 firefox &
