@@ -10,12 +10,12 @@ from loguru import logger
 from settings import conf, home, maim_command, xclip_image, xclip_text
 from utils.cli import call_rofi_dmenu
 
-alternative_screenshot_funcs = []
 
+class ScreenshotCommand:
+    funcs: list[Callable[[], None]] = []
 
-def alternative_screenshot(func: Callable) -> Callable:
-    alternative_screenshot_funcs.append(func)
-    return func
+    def __call__(self, func: Callable[[], None]) -> None:
+        self.funcs.append(func)
 
 
 def get_path() -> Path:
@@ -69,8 +69,8 @@ def to_clip(path: Path | None) -> None:
     sb.check_call(xclip_image.format(path=path), shell=True)
 
 
-def get_alternative_screenshot_funcs() -> dict[str, Callable]:
-    return {i.__name__: i for i in alternative_screenshot_funcs}
+def get_alternative_screenshot_funcs() -> dict[str, Callable[[], None]]:
+    return {i.__name__: i for i in ScreenshotCommand.funcs}
 
 
 @lazy.function
@@ -89,7 +89,7 @@ def take_screenshot(_) -> None:
     to_clip(path)
 
 
-@alternative_screenshot
+@ScreenshotCommand()
 def recongnize_qr() -> None:
     logger.debug("recongnizing qr")
     try:
@@ -103,14 +103,14 @@ def recongnize_qr() -> None:
         send_notification("error", msg)
 
 
-@alternative_screenshot
+@ScreenshotCommand()
 def take_full_screenshot():
     logger.debug("taking full screenshot")
     path = call_screenshot_command()
     to_clip(path)
 
 
-@alternative_screenshot
+@ScreenshotCommand()
 def take_screen_and_upload():
     logger.debug("taking screenshot and upload")
     path = call_screenshot_command(" -s")
