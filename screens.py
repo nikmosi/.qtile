@@ -1,4 +1,4 @@
-from collections.abc import Sequence
+# type: ignore
 
 from libqtile import bar, widget
 from libqtile.config import Screen
@@ -42,7 +42,7 @@ cdf = CDF(
 layout_icon = widget.CurrentLayoutIcon(scale=0.6, padding=10)
 
 
-def get_screens() -> Sequence[Screen]:
+def get_screens() -> list[Screen]:
     screens = [
         Screen(
             wallpaper=wallpaper_screen_1,

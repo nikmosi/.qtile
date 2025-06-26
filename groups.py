@@ -39,7 +39,7 @@ def extend_keys(groups: Sequence[Group], keys_src: list[Key]) -> None:
 
 
 def get_groups() -> Sequence[Group]:
-    res = []
+    res: list[Group] = []
     for screen in [
         ScreenSettings(index=0, key_prefix="{}", group_count=9),
         ScreenSettings(index=1, key_prefix="F{}", group_count=9),

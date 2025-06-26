@@ -82,7 +82,7 @@ class InfoAirQualitiIndex(ThreadPoolText):
         self,
         aqi_getter: AqiGetter,
         text: str = "",
-        colors=InfoAirQualityColors(),
+        colors: InfoAirQualityColors = InfoAirQualityColors(),
         **config,
     ):
         super().__init__(text, **config)

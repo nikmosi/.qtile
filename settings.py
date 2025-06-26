@@ -1,3 +1,4 @@
+# type: ignore
 import os
 from functools import cached_property
 from os import path

@@ -1,7 +1,7 @@
 import re
 import subprocess as sb
 
-from libqtile import qtile
+from libqtile import qtile  # type: ignore
 from libqtile.backend.base.window import Window
 from libqtile.config import Click, Drag, Match
 from libqtile.hook import subscribe
@@ -18,9 +18,9 @@ screens = get_screens()
 extend_keys(groups, keys)
 
 
-@subscribe.client_new
+@subscribe.client_new  # type: ignore
 def new_clinet(client: Window) -> None:
-    classes = client.get_wm_class()
+    classes = client.get_wm_class()  # type: ignore
     if not classes:
         return
     if "pavucontrol" in classes:
@@ -30,15 +30,15 @@ def new_clinet(client: Window) -> None:
         client.toggle_minimize()
 
 
-@subscribe.startup_once
+@subscribe.startup_once  # type: ignore
 def auto_lunch() -> None:
     sb.call([home / ".config/qtile/autostart.sh"])
 
 
-@subscribe.startup_complete
+@subscribe.startup_complete  # type: ignore
 def complete_hook() -> None:
-    qtile.groups_map["firefox"].toscreen(0)
-    qtile.groups_map["chatterino"].toscreen(1)
+    qtile.groups_map["firefox"].toscreen(0)  # type: ignore
+    qtile.groups_map["chatterino"].toscreen(1)  # type: ignore
 
 
 layouts = [

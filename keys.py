@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 import subprocess as sb
-from collections.abc import Sequence
-from typing import Any
+from typing import Any, cast
 
 from libqtile.backend.base.window import Window
 from libqtile.config import Key
@@ -85,7 +84,7 @@ def change_volume(qtile: Qtile, increase_vol: bool):
 
 @lazy.function
 def toggle_minimize_window(qtile: Qtile) -> None:
-    windows: Sequence[Window] = qtile.current_group.windows
+    windows: list[Window] = cast(list[Window], qtile.current_group.windows)  # type: ignore
     names = [f"{i}: {w.name}" for i, w in enumerate(windows)]
     selected_window = call_rofi_dmenu(names)
     if not selected_window:

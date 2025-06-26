@@ -16,7 +16,7 @@ class Wireguard(ThreadPoolText):
         green = "#55aa55"
 
     def __init__(
-        self, configs_path="/etc/wireguard", default_text="", **config
+        self, configs_path: str = "/etc/wireguard", default_text: str = "", **config
     ) -> None:
         self.configs_path = configs_path
         text = "<span foreground='{color}' font_size='24pt'>{text}</span>"
