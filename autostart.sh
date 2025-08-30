@@ -3,7 +3,7 @@
 chatterino &
 hyperhdr --desktop &
 ayugram-desktop &
-nekoray &
+hiddify &
 firefox &
 easyeffects &
 prismatik &; echo (sleep 0.5 && prismatik --on && prismatik --on) &

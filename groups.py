@@ -76,7 +76,7 @@ def get_groups() -> Sequence[Group]:
             Match(wm_class="anilibrix"),
             Match(wm_class="discord"),
             Match(wm_class="legcord"),
-            Match(wm_class="nekoray"),
+            Match(wm_class="hiddify"),
             Match(wm_class="ayugram-desktop"),
             Match(wm_class="telegram-desktop"),
             Match(wm_class="vesktop"),
