@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+"""Disk usage script for AwesomeWM.
+
+Outputs single-line JSON by default with keys total, used, free, percent.
+Supports --once and --watch modes and custom --format output.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import time
+import shutil
+
+
+def get_usage(path: str) -> dict[str, int]:
+    usage = shutil.disk_usage(path)
+    percent = int(usage.used / usage.total * 100)
+    return {
+        "total": int(usage.total),
+        "used": int(usage.used),
+        "free": int(usage.free),
+        "percent": percent,
+    }
+
+
+def emit(info: dict[str, int], fmt: str | None) -> None:
+    if fmt:
+        print(fmt.format(**info))
+    else:
+        print(json.dumps(info, separators=(",", ":")))
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--path", default="/", help="filesystem path to check")
+    parser.add_argument("--once", action="store_true", help="run once and exit")
+    parser.add_argument("--watch", type=float, help="watch mode with interval seconds")
+    parser.add_argument(
+        "--format", dest="format", default=None, help="format string for output"
+    )
+    args = parser.parse_args()
+
+    def run() -> None:
+        info = get_usage(args.path)
+        emit(info, args.format)
+
+    if args.watch:
+        try:
+            while True:
+                run()
+                time.sleep(args.watch)
+        except KeyboardInterrupt:
+            return 0
+    else:
+        run()
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
