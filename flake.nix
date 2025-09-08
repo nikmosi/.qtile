@@ -5,6 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     pre-commit-hooks.url = "github:cachix/git-hooks.nix";
     flake-utils.url = "github:numtide/flake-utils";
+    home-manager.url = "github:nix-community/home-manager";
   };
 
   outputs =
@@ -13,6 +14,7 @@
       nixpkgs,
       pre-commit-hooks,
       flake-utils,
+      home-manager,
       ...
     }:
     flake-utils.lib.eachDefaultSystem (system: {
@@ -56,5 +58,9 @@
             '';
           };
         };
-    });
+    }) // {
+      homeManagerModules = {
+        awesome = import ./homeManagerModule.nix;
+      };
+    };
 }
